@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title><%= title %></title>
+  <link rel='stylesheet' href='/stylesheets/style.css'/>
+</head>
+<body>
+<% include navigation.ejs %>
+<div class="row">
+  <div class="head">
+    <div class="head-pic">
+      <img src="/images/headphoto.png">
+    </div>
+    <div class="head-info">
+      <div class="username">
+        小白
+      </div>
+      <div class="usertag">欢迎来到尚名校Welcome to SMX</div>
+    </div>
+    <div class="head-logo">
+      <img src="/images/headlogo.png">
+    </div>
+  </div>
+  <div class="left-guide">
+    <div class="guide" id="student">我的课程</div>
+    <div class="guide" id="student_re">推荐课程</div>
+    <div class="guide" id="student_detail">个人信息</div>
+  </div>
+  <div class="content" style="margin-top: 0">
+    <div class="detail-above">
+      <div class="detail-box">
+        <div class="above-left">
+          <ul class="detail-li" style="line-height: 45px">
+            <li>姓名：&nbsp易婷</li>
+            <li>年级：&nbsp高中三年级</li>
+            <li>学校：&nbsp大连理工大学</li>
+            <li>联系方式：&nbsp18742585790</li>
+            <li>住址：&nbsp辽宁省大连市金州区</li>
+          </ul>
+
+        </div>
+          <div class="above-photo">
+            <img src="../images/picture.jpg" width="100px" ; height="120px">
+          </div>
+          <div class="above-button" >
+            <button class="detail-button detail-buttonOne" style="width: 36%;float: right">修改资料</button>
+          </div>
+
+      </div>
+
+    </div>
+    <div class="detail-under">
+      <div class="detail-box">
+        <div class="under-left">
+          <div class="under-line">
+            <ul class="detail-li" style="line-height: 60px">
+              <li>注册身份信息</li>
+            </ul>
+          </div>
+          <div class="under-IDphoto">
+
+              <img src="../images/picture.jpg" width="50%" ; height="100%" style="float: left;">
+
+              <img src="../images/picture.jpg" width="50%" ; height="100%" style="float: left;">
+
+          </div>
+        </div>
+
+          <div class="under-temp">
+
+          </div>
+          <div class="under-button">
+            <button class="detail-button detail-buttonOne" style="width: 50%;float: right">申请修改</button>
+          </div>
+
+      </div>
+    </div>
+    <div class="detail-temp">
+    </div>
+  </div>
+  <button style="position: fixed;top:90%;left: 90%" id="goTopBtn">返回顶部</button>
+</div>
+</body>
+<script src="javascripts/jquery.min.js"></script>
+<script>
+  $(document).ready(function () {
+    var toTopHeight = $(".left-guide").offset().top;
+    //监听页面滚动
+    $(window).scroll(function () {
+      var sc = $(window).scrollTop();
+      var rwidth = $(window).width()
+      if (sc > 0) {
+        $("#goTopBtn").css("display", "block");
+      } else {
+        $("#goTopBtn").css("display", "none");
+      }
+      //判断页面滚动超过导航时执行的代码
+      if ($(document).scrollTop() > toTopHeight) {
+        //检测是否为IE6。jQuery1.9中去掉了msie的方法，所以只好这样写
+        if ('undefined' == typeof(document.body.style.maxHeight)) {
+          //页面滚动的距离
+          var scrollTop = $(document).scrollTop();
+          //IE6下，用absolute定位，并设置Top值为距离页面顶部的距离
+          $(".left-guide").css({'position': 'absolute', 'top': scrollTop + 'px'});
+          $(".right-tab").css({'position': 'absolute', 'top': scrollTop + 'px'});
+        } else {
+          //IE6以上浏览器采用fixed定位
+          $(".left-guide").addClass("guide_fixed");
+          $(".right-tab").addClass("tab_fixed");
+        }
+      } else {//判断页面滚动没有超过导航时执行的代码
+        if ('undefined' == typeof(document.body.style.maxHeight)) {
+          //设置Top值为导航距页面顶部的初始值。（IE6为了防止浏览器一下滚动过多，所以不能采用直接去掉定位的方法）
+          $(".left-guide").css({'position': 'absolute', 'top': toTopHeight + 'px'});
+          $(".right-tab").css({'position': 'absolute', 'top': toTopHeight + 'px'});
+        } else {
+          //IE6以上浏览器移除fixed定位，采用默认流布局
+          $(".left-guide").removeClass("guide_fixed");
+          $(".right-tab").removeClass("tab_fixed");
+        }
+      }
+    });
+    $("#goTopBtn").click(function () {
+      $('html').animate({scrollTop: 0}, 100);
+      return false;
+    })
+    $("#student").click(function () {
+      location.replace("/student");
+    })
+    $("#student_re").click(function () {
+      location.replace("/student_re");
+    })
+    $("#student_detail").click(function () {
+      location.replace("/student_detail");
+    })
+  })
+</script>
+</html>
