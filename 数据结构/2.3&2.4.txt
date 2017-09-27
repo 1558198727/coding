@@ -11,17 +11,16 @@ public:
 template<class T>
 class LinkList
 {
-private:
-   private:
+    public:
      LinkNode<T> *head,*tail;  //表头和表尾指针
      LinkNode<T> *prevPtr,*currPtr;//记录表当前遍历位置的指针，由插入和删除操作更新
      int position;
-public:
+
     int length;
      LinkList();
      //~LinkList();
      void disp();        //遍历输出链表
-     int getSize();  //返回链表中的元素个数
+     int getSize(LinkNode<T>*p);  //返回链表中的元素个数
      bool isEmpty()const; //链表是否为空
      void reset(int Pos=0);//初始化指针的位置，（第一位数的位置设置为零）
      void next();          //使指针移动到下一个节点
@@ -40,8 +39,13 @@ public:
      bool insertPos(const int i,const T value);//在指定位置插入节点
      bool deletePos(const int i); //删除指定位置的节点
      void daozhi();  //倒置链表
-     T getMaxMember();
+     T getMaxMember(LinkNode<T>*p);
      T getAverage();
+
+
+     int sum(LinkNode<T>*p);
+
+
 };
 
 template<class T>
@@ -72,21 +76,34 @@ void LinkList<T>::insertTail(const T&item)
      length++;
 }
 
+
 template<class T>
-int LinkList<T>::getSize()
+int LinkList<T>::getSize(LinkNode<T>*p)
 {
-   int counter=0;
-   LinkNode<T> *currPtr1;
-   currPtr1=head;
-   while(currPtr1)
-   {
-     counter++;
-     currPtr1=currPtr1->Link;
-   }
-   length=counter;
-   cout<<"length为"<<length<<endl;
-  return counter;
+    LinkNode<T> *temp;
+    temp=p;
+    if(temp->Link==NULL)
+        return 1;
+    else
+    {
+        temp=temp->Link;
+        return getSize(temp)+1;
+    }
 }
+
+
+template<class T>
+int LinkList<T>::sum(LinkNode<T>*p)
+{
+   LinkNode<T> *temp=p;
+    if(temp->Link==NULL)
+        return temp->data;
+    else
+    {
+        return sum(temp->Link)+temp->data;
+    }
+}
+
 
 template<class T>
 void LinkList<T>::daozhi()
@@ -123,22 +140,24 @@ void LinkList<T>::daozhi()
     head=p2;
   }
 }
-template<class T>
-T LinkList<T>::getMaxMember()
-{
-   T max=head->data;
-   LinkNode<T>*p=head->Link;
-   while(p)
-   {
-     if(p->data>max)
-     {
-       max=p->data;
-     }
-     p=p->Link;
-   }
- return max;
 
+
+
+template<class T>
+T LinkList<T>::getMaxMember(LinkNode<T>*p)
+{
+    LinkNode<T> * temp=p;
+    if(temp->Link==NULL)
+        return temp->data;
+    else
+    {
+        int a=temp->data;
+        temp=temp->Link;
+        int b=getMaxMember(temp);
+        return a>b?a:b;
+    }
 }
+
 template<class T>
 T LinkList<T>::getAverage()
 {
@@ -174,13 +193,19 @@ int main()
   link1.insertTail(2);
   link1.insertTail(3);
   link1.insertTail(4);
+  link1.insertTail(5);
+  link1.insertTail(6);
+  link1.insertTail(7);
+  link1.insertTail(8);
   link1.disp();
   cout<<"第三题"<<endl;
   link1.daozhi();
   link1.disp();
   cout<<"第四题"<<endl;
-  cout<<"链表中最大的元素为"<<link1.getMaxMember()<<endl;
-  cout<<"链表中元素个数为"<<link1.getSize()<<endl;
-  cout<<"链表中元素的平均数为"<<link1.getAverage()<<endl;
+  cout<<"链表中最大的元素为"<<link1.getMaxMember(link1.head)<<endl;
+  cout<<"链表中元素个数为"<<link1.getSize(link1.head)<<endl;
+  cout<<"链表中元素的平均数和为"<<link1.sum(link1.head)<<endl;
+  cout<<"链表中元素的平均数为"<<link1.sum(link1.head)/link1.getSize(link1.head)<<endl;
   return 0;
 }
+

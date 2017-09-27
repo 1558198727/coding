@@ -116,8 +116,8 @@ LinkList<T>* Merge(LinkList<T>&p1,LinkList<T>&p2)
    cout<<"合并链表生成新链表"<<endl;
    LinkList<T>link;
    LinkNode<T>*p11,*p22,*p33;
-   p11=p1.head;
-   p22=p2.head;
+   p11=p1.head->Link;
+   p22=p2.head->Link;
    p33=link.head;
    while(p11 && p22)
    {

@@ -152,7 +152,7 @@ int main()
   link1.disp();
   counter1=0;
   link1.delete_Pheadofcricle();
-  link1.delete_Pheadofcricle();
+
   link1.disp();
 
   return 0;
