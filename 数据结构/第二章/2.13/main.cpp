@@ -75,7 +75,7 @@ class ArrayStack:public Stack<T>
     {
         if(top==-1)
         {
-            cout<<"栈为空，不能进行弹栈操作"<<endl;
+           cout<<"缺少左括号"<<endl;
             return false;
         }
         else
@@ -101,7 +101,7 @@ template<class T>
     {
         if(top==-1)
         {
-            cout<<"栈为空，不能读取栈顶的元素"<<endl;
+            cout<<"缺少左括号"<<endl;
             return false;
         }
         else
@@ -111,7 +111,6 @@ template<class T>
         }
     }
 
-
  template<class T>
     bool ArrayStack<T>::isEmpty()      //判断栈是否为空
     {
@@ -120,9 +119,6 @@ template<class T>
            else
             return false;
     }
-
-
-
     template<class T>
     bool ArrayStack<T>::isFull()       //判断栈是否已满
     {
@@ -136,7 +132,7 @@ void peidui()
 {
     ArrayStack<char> stack1(40);
     char temp;
-    string str;
+    char a;
     cout<<"请输入表达式"<<endl;
     do
     {
@@ -145,20 +141,78 @@ void peidui()
        {
              if(temp=='{' || temp=='[' || temp=='(')
              stack1.Push(temp);
-             else if(temp=='' )
+             else if(temp==')' )
              {
+                 if(stack1.isEmpty())
+                {
+                  cout<<"缺少左括号"<<endl;
+                  break;
+                 }
+                 else
+                 {
+                     stack1.Top(a);
+                     if(a=='(')
+                       stack1.Pop(a);
+                     else
+                       cout<<"表达式错误"<<endl;
+                 }
 
              }
+             else if(temp==']' )
+             {
+                  if(stack1.isEmpty())
+                 {
+                  cout<<"缺少左括号"<<endl;
+                  break;
+                 }
+                 else
+                 {
+                   stack1.Top(a);
+                   if(a=='[')
+                    stack1.Pop(a);
+                   else
+                    cout<<"表达式错误"<<endl;
+                 }
+             }
+             else if(temp=='}' )
+             {
+                  if(stack1.isEmpty())
+                  {
+                    cout<<"缺少左括号"<<endl;
+                    break;
+                  }
+                  else
+                 {
+                   stack1.Top(a);
+                    if(a=='{')
+                      stack1.Pop(a);
+                    else
+                      cout<<"表达式错误"<<endl;
+                }
+             }
+       }
+       else if(temp=='#')
+       {
+           if(stack1.isEmpty())
+           {
+             cout<<"表达式输入正确"<<endl;
+             break;
+           }
+           else
+           {
+                cout<<"缺少右括号"<<endl;
+                break;
+           }
        }
        else
        {
            cout<<"输入错误"<<endl;
+           goto jieshu;
            break;
        }
+    }while(1);
 
-
-    }while(temp!='*');
-
+   jieshu:;
 }
 
 
