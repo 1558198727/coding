@@ -218,12 +218,12 @@ string Calculator::InfixToSuffix(string InfixExp){
 }
 
 int main() {
-    string a,b;
-    Calculator a1;
+    string zhong;
+    Calculator a;
     cout<<"输入中缀表达式"<<endl;
-    cin>>a;
+    cin>>zhong;
     cout<<"计算结果为"<<endl;
-    cout<<a1.Calculate(a)<<endl;
+    cout<<a.Calculate(zhong)<<endl;
     return 0;
 }
 

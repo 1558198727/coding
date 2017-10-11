@@ -140,7 +140,7 @@ void changeJinZhi(T h,T k)
 
 int main()
 {
-  changeJinZhi(16,9);
 
+  changeJinZhi(10,3);
   return 0;
 }
