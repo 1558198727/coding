@@ -58,7 +58,7 @@ LinkList<T>::LinkList()
 template<class T>
 void LinkList<T>::insertTail(const T&item)
 {
-    LinkNode<T>* ptemp;
+     LinkNode<T>* ptemp;
      ptemp=new LinkNode<T>;
      ptemp->data=item;
 	 ptemp->Link=0;
