@@ -1,7 +1,27 @@
+/*
+  只能计算十以内包括括号的加减乘除
+  后续完善大数计算
+*/
+
 #include<iostream>
 #include<string.h>
+ #include <stdlib.h>
 using namespace std;
-
+//字符串转换为数字，递归实现
+int StringtoInt(string str)
+{
+    if(str.size()==1)
+    {
+        return str[0]-48;
+    }
+    else
+    {
+      int low=str[str.size()-1]-48;
+      str.erase(str.size()-1);
+      return low+StringtoInt(str)*10;
+    }
+}
+//判断优先级
 int youxianji(char a)
 {
     if(a=='('||a==')')
@@ -15,8 +35,8 @@ int youxianji(char a)
        cout<<"未知的运算符"<<endl;
        return 0;
     }
-
 }
+//链式栈的节点
 template<class T>
 class LinkNode
 {
@@ -24,7 +44,7 @@ class LinkNode
    T data;
    LinkNode<T>* Link;
 };
-
+//链式栈
 template<class T>
 class ArrayStack
 {
@@ -101,27 +121,26 @@ template<class T>
 
 
  template<class T>
-    bool ArrayStack<T>::isEmpty()      //判断栈是否为空
-    {
-           if(head->Link==NULL)
-            return true;
-           else
-            return false;
-    }
+bool ArrayStack<T>::isEmpty()      //判断栈是否为空
+{
+     if(head->Link==NULL)
+        return true;
+      else
+        return false;
+}
 
-
+//计算器类
 class Calculator
 {
 public:
   ArrayStack<char>opertor;
-  ArrayStack<char>number;
+  ArrayStack<int>number;
   string zhong_exp;
   string hou_exp;
   Calculator(string e);
   int cal_hou();
   void zhong_hou();
 };
-
 
 Calculator::Calculator(string e)
 {
@@ -135,93 +154,118 @@ void Calculator:: zhong_hou()
    char a;
    int i=0;
    char oper;
-   char n;
-   while(i<zhong_exp.size())
+   while(i<zhong_exp.size()-1)
    {
        a=zhong_exp[i];
-       cout<<a<<endl;
        if(a>=48 && a<=57)
        {
-         number.Push(a);
-         cout<<"11111"<<endl;
+         hou_exp+=a;
          i++;
        }
-       else
-      {
-          cout<<"22222"<<endl;
-         if(opertor.isEmpty())
-         {
-             cout<<"000000"<<endl;
-           opertor.Push(a);
-           i++;
-
-         }
-         else
-         {
-             cout<<"77777"<<endl;
-             if(youxianji(a)>youxianji(opertor.Top()))
+       else if(a=='(' )
+       {
+          opertor.Push(a);
+             i++;
+       }
+       else if(a==')')
+       {
+           while(1)
+           {
+             opertor.Pop(oper);
+             if(oper!='(')
              {
-               opertor.Push(a);
-               i++;
-               cout<<"33333"<<endl;
+                 hou_exp+=oper;
              }
              else
-            {
-               cout<<"4444"<<endl;
-               while(youxianji(a)<youxianji(opertor.Top()))
-              {
-                  cout<<"5555"<<endl;
-                  number.Pop(n);
-                  cout<<"出栈元素为"<<number.Top()<<endl;
-                  hou_exp+=n;
-                  number.Pop(n);
-                  hou_exp+=n;
-                  opertor.Pop(oper);
-                  hou_exp+=oper;
-              }
-              opertor.Push(a);
-              i++;
-              cout<<"66666"<<endl;
-            }
-        }
-      }
+                break;
+           }
+          i++;
+
+       }
+       else
+       {
+           while(!opertor.isEmpty() && opertor.Top()!='(' && youxianji(a)<=youxianji(opertor.Top()))
+           {
+             opertor.Pop(oper);
+             hou_exp+=oper;
+           }
+           opertor.Push(a);
+           i++;
+       }
+
    }
    while(!opertor.isEmpty())
    {
-       cout<<"5555"<<endl;
-       number.Pop(n);
-       hou_exp+=n;
        opertor.Pop(oper);
        hou_exp+=oper;
    }
 cout<<"后缀表达式为"<<hou_exp<<endl;
 }
+
 int Calculator::cal_hou()
 {
    char a;
    int i=0;
-   a=zhong_exp[i];
-   if(a>=48 && a<=57);
+   char n;
+   int num;
+   int num1,num2,result;
+   while(i<hou_exp.size())
+   {
+       a=hou_exp[i];
+       if(a>=48 && a<=57)
+       {
+           num=hou_exp[i]-48;
+           number.Push(num);
+           i++;
+       }
+       else if(a=='+')
+       {
+           number.Pop(num2);
+           number.Pop(num1);
+           result=num1+num2;
+           number.Push(result);
+           i++;
+       }
+       else if(a=='-')
+       {
+           number.Pop(num2);
+           number.Pop(num1);
+           result=num1-num2;
+           number.Push(result);
+           i++;
+       }
+       else if(a=='*')
+       {
+           number.Pop(num2);
+           number.Pop(num1);
+           result=num1*num2;
+           number.Push(result);
+           i++;
+       }
+       else if(a=='/')
+       {
+           number.Pop(num2);
+           number.Pop(num1);
+           result=num1/num2;
+           number.Push(result);
+           i++;
+       }
+   }
+   number.Push(result);
+   cout<<"结果为"<<result<<endl;
 }
 
 int main()
 {
-  Calculator a("3*2-3");
-  a.zhong_hou();
-
   /*
-  for(int i=1;i<10;i++)
-  stack1.Push(i);
-  int a;
-  stack1.Pop(a);
-  cout<<a<<endl;
-  stack1.Pop(a);
-  cout<<a<<endl;
-  stack1.Pop(a);
-  cout<<a<<endl;
-  stack1.Pop(a);
-  cout<<a<<endl;
-  stack1.Top(a);
+  Calculator a("(3+5)*5+3-3*5+3*5=");
+  a.zhong_hou();
+  a.cal_hou();
   */
+  //cout<<StringtoInt("34234")<<endl;
+  char * str="351534";
+  int a=atoi(str);
+   cout<<a<<endl;
+   cout<<++a<<endl;
   return 0;
 }
