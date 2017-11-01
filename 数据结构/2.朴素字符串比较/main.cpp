@@ -33,6 +33,6 @@ int NaivStrMatching(const string & T,const string & P)
 }
 int main()
 {
-    cout<<NaivStrMatching("sdfas","as")<<endl;
+    cout<<NaivStrMatching("sdfasdddd","as")<<endl;
     return 0;
 }

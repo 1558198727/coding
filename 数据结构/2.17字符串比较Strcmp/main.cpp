@@ -45,7 +45,7 @@ int main()
     cout<<aa;
     */
     string a="ABCD";
-    string b="ABcd";
+    string b="AB";
     cout<<Strcmp(a,b)<<endl;
     return 0;
 }

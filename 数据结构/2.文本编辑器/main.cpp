@@ -199,9 +199,7 @@ public:
     friend ostream & operator<<(ostream & out,TextEditor & editor){
         int line = 1;
         list<string>::iterator it;
-        out<<editor.name
-
-<<".txt"<<endl;
+        out<<editor.name<<".txt"<<endl;
         for (it = editor.article.begin();it!=editor.article.end();it++){
             line++;
             out<<*it<<endl;
@@ -209,7 +207,6 @@ public:
         out<<endl;
         return out;
     }
-
 };
 
 
@@ -225,13 +222,12 @@ int main(){
     text.addText(s);
     }
     cout<<text;
-
     int m,n;
     text.getCursor(&m,&n);
     cout<<"第"<<m<<"行，第"<<n<<"列"<<endl;
     int x,y;
     cout<<"请输入要插入的位置"<<endl;
-    cin>>x>>y;;
+    cin>>x>>y;
     text.setCursor(x,y);
     text.MoveCursor(0);
     string ins;

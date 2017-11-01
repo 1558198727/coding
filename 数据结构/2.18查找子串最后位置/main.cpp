@@ -41,6 +41,6 @@ int NaivStrMatching(const string & T,const string & P)
 }
 int main()
 {
-    cout<<NaivStrMatching("asdfasassssasdasdsfdsas","asd")<<endl;
+    cout<<NaivStrMatching("asdfasassssasdasdsfdsas","111")<<endl;
     return 0;
 }
