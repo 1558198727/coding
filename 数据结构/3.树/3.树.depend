@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1509627467 source:c:\users\lnovo\desktop\github\数据结构\3.树\main.cpp
+	<iostream>
+	"Queue.h"
+
+1509627486 c:\users\lnovo\desktop\github\数据结构\3.树\include\queue.h
+	<iostream>
+
