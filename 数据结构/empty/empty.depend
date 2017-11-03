@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1509636922 source:c:\users\lnovo\desktop\github\数据结构\empty\main.cpp
+	<stdio.h>
+	<math.h>
+	<windows.h>
+

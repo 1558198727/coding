@@ -1,5 +1,7 @@
 #include <iostream>
+#include <windows.h>
 #include"Queue.h"
+#include"Stack.h"
 using namespace std;
 
 template<class T>
@@ -10,7 +12,7 @@ class BinaryTreeNode
 {
    friend class BinaryTree<T>;
   private:
-      T element; //æ•°æ®æˆå‘˜
+      T element; //Êı¾İ³ÉÔ±
       BinaryTreeNode<T> *leftChild;
       BinaryTreeNode<T> *rightChild;
   public:
@@ -114,17 +116,20 @@ class BinaryTree
      bool isEmpty()const;
      BinaryTreeNode<T> *getRoot()const;
      BinaryTreeNode<T> * getParent(BinaryTreeNode<T> *current)const;
-     BinaryTreeNode<T> *getLeftSibling(BinaryTreeNode<T> *current)const;//è¿”å›currentèŠ‚ç‚¹çš„å·¦å…„å¼Ÿ
-     BinaryTreeNode<T> *getRightSibling(BinaryTreeNode<T> *current)const;//è¿”å›currentèŠ‚ç‚¹çš„å³å…„å¼Ÿ
-     void breadthFirstOrder();//å¹¿åº¦ä¼˜å…ˆéå†ä»¥rootä¸ºæ ¹èŠ‚ç‚¹çš„å­æ ‘
+     BinaryTreeNode<T> *getLeftSibling(BinaryTreeNode<T> *current)const;//·µ»Øcurrent½ÚµãµÄ×óĞÖµÜ
+     BinaryTreeNode<T> *getRightSibling(BinaryTreeNode<T> *current)const;//·µ»Øcurrent½ÚµãµÄÓÒĞÖµÜ
+     void breadthFirstOrder();//¹ã¶ÈÓÅÏÈ±éÀúÒÔrootÎª¸ù½ÚµãµÄ×ÓÊ÷
      void preOrderTree();
-     void preOrder(BinaryTreeNode<T> *root);        //å…ˆåºéå†ä»¥rootä¸ºæ ¹èŠ‚ç‚¹çš„å­æ ‘
+     void preOrder(BinaryTreeNode<T> *root);        //ÏÈĞò±éÀúÒÔrootÎª¸ù½ÚµãµÄ×ÓÊ÷,µİ¹éÊµÏÖ
+     void preOrder();        //ÏÈĞò±éÀúÒÔrootÎª¸ù½ÚµãµÄ×ÓÊ÷£¬·Çµİ¹éÊµÏÖ
      void inOrderTree();
-     void inOrder(BinaryTreeNode<T> *root);         //ä¸­åºéå†ä»¥rootä¸ºæ ¹èŠ‚ç‚¹çš„å­æ ‘
+     void inOrder(BinaryTreeNode<T> *root);         //ÖĞĞò±éÀúÒÔrootÎª¸ù½ÚµãµÄ×ÓÊ÷,µİ¹éÊµÏÖ
+     void inOrder();         //ÖĞĞò±éÀúÒÔrootÎª¸ù½ÚµãµÄ×ÓÊ÷,·Çµİ¹éÊµÏÖ
      void postOrderTree();
-     void postOrder(BinaryTreeNode<T> *root);       //ååºéå†ä»¥rootä¸ºæ ¹èŠ‚ç‚¹çš„å­æ ‘
-     void levelOrder(BinaryTreeNode<T> *root);      //æŒ‰å±‚æ¬¡éå†ä»¥rootä¸ºæ ¹èŠ‚ç‚¹çš„å­æ ‘
-     void deleteBinaryTree(BinaryTreeNode<T> *root);//åˆ é™¤ä»¥rootä¸ºæ ¹èŠ‚ç‚¹çš„å­æ ‘
+     void postOrder(BinaryTreeNode<T> *root);       //ºóĞò±éÀúÒÔrootÎª¸ù½ÚµãµÄ×ÓÊ÷,µİ¹éÊµÏÖ
+     void postOrder();       //ºóĞò±éÀúÒÔrootÎª¸ù½ÚµãµÄ×ÓÊ÷,·Çµİ¹éÊµÏÖ
+     void levelOrder(BinaryTreeNode<T> *root);      //°´²ã´Î±éÀúÒÔrootÎª¸ù½ÚµãµÄ×ÓÊ÷
+     void deleteBinaryTree(BinaryTreeNode<T> *root);//É¾³ıÒÔrootÎª¸ù½ÚµãµÄ×ÓÊ÷
      void createTree();
 };
 template<class T>
@@ -158,23 +163,23 @@ BinaryTreeNode<T> *BinaryTree<T>::getRoot()const
     return root;
 }
 template<class T>
-BinaryTreeNode<T> * BinaryTree<T>::getParent(BinaryTreeNode<T> *current)const//è¿”å›currentèŠ‚ç‚¹çš„çˆ¶èŠ‚ç‚¹
+BinaryTreeNode<T> * BinaryTree<T>::getParent(BinaryTreeNode<T> *current)const//·µ»Øcurrent½ÚµãµÄ¸¸½Úµã
 {
     ;
 }
 
 template<class T>
-BinaryTreeNode<T> *BinaryTree<T>::getLeftSibling(BinaryTreeNode<T> *current)const//è¿”å›currentèŠ‚ç‚¹çš„å·¦å…„å¼Ÿ
+BinaryTreeNode<T> *BinaryTree<T>::getLeftSibling(BinaryTreeNode<T> *current)const//·µ»Øcurrent½ÚµãµÄ×óĞÖµÜ
 {
     ;
 }
 template<class T>
-BinaryTreeNode<T> *BinaryTree<T>::getRightSibling(BinaryTreeNode<T> *current)const//è¿”å›currentèŠ‚ç‚¹çš„å³å…„å¼Ÿ
+BinaryTreeNode<T> *BinaryTree<T>::getRightSibling(BinaryTreeNode<T> *current)const//·µ»Øcurrent½ÚµãµÄÓÒĞÖµÜ
 {
 
 }
 template<class T>
-void BinaryTree<T>::breadthFirstOrder()//å¹¿åº¦ä¼˜å…ˆéå†ä»¥rootä¸ºæ ¹èŠ‚ç‚¹çš„å­æ ‘
+void BinaryTree<T>::breadthFirstOrder()//¹ã¶ÈÓÅÏÈ±éÀúÒÔrootÎª¸ù½ÚµãµÄ×ÓÊ÷
 {
     Queue<BinaryTreeNode<T>* > que;
     BinaryTreeNode<T> *p=root;
@@ -192,7 +197,8 @@ void BinaryTree<T>::breadthFirstOrder()//å¹¿åº¦ä¼˜å…ˆéå†ä»¥rootä¸ºæ ¹èŠ‚ç‚¹çš
     cout<<endl;
 }
 
-//å…ˆåºéå†ä»¥rootä¸ºæ ¹èŠ‚ç‚¹çš„å­æ ‘,é€’å½’å®ç°
+//ÏÈĞò±éÀúÒÔrootÎª¸ù½ÚµãµÄ×ÓÊ÷,µİ¹éÊµÏÖ
+
 template<class T>
 void BinaryTree<T>::preOrderTree()
 {
@@ -209,7 +215,34 @@ void BinaryTree<T>::preOrder(BinaryTreeNode<T> *rt)
     }
 
 }
-//ä¸­åºéå†ä»¥rootä¸ºæ ¹èŠ‚ç‚¹çš„å­æ ‘
+
+
+//ÏÈĞò±éÀúÒÔrootÎª¸ù½ÚµãµÄ×ÓÊ÷,·Çµİ¹éÊµÏÖ
+
+template<class T>
+void BinaryTree<T>::preOrder()
+{
+    ArrayStack<BinaryTreeNode<T> * > stack1;
+    BinaryTreeNode<T> *p=root;
+    while(!stack1.isEmpty() || p)
+    {
+        if(p)
+        {
+           p->visit();
+           if(p->rightChild)
+           {
+             stack1.Push(p->rightChild);
+           }
+          p=p->leftChild;
+        }
+        else
+        {
+          stack1.Pop(p);
+        }
+    }
+
+}
+//ÖĞĞò±éÀúÒÔrootÎª¸ù½ÚµãµÄ×ÓÊ÷£¬µİ¹éÊµÏÖ
 template<class T>
 void BinaryTree<T>::inOrderTree()
 {
@@ -226,7 +259,35 @@ void BinaryTree<T>::inOrder(BinaryTreeNode<T> *rt)
     }
 }
 
-//ååºéå†ä»¥rootä¸ºæ ¹èŠ‚ç‚¹çš„å­æ ‘
+//ÖĞĞò±éÀúÒÔrootÎª¸ù½ÚµãµÄ×ÓÊ÷£¬·Çµİ¹éÊµÏÖ
+
+template<class T>
+void BinaryTree<T>::inOrder()
+{
+
+    ArrayStack<BinaryTreeNode<T> * > stack1;
+    BinaryTreeNode<T> *p=root;
+    while(!stack1.isEmpty() || p)
+    {
+        if(p)
+        {
+           p->visit();
+           if(p->rightChild)
+           {
+             stack1.Push(p->rightChild);
+           }
+          p=p->leftChild;
+        }
+        else
+        {
+          stack1.Pop(p);
+        }
+    }
+
+}
+
+
+//ºóĞò±éÀúÒÔrootÎª¸ù½ÚµãµÄ×ÓÊ÷£¬µİ¹éÊµÏÖ
 template<class T>
 void BinaryTree<T>::postOrderTree()
 {
@@ -237,18 +298,26 @@ void BinaryTree<T>::postOrder(BinaryTreeNode<T> *rt)
 {
     if(rt)
     {
-      inOrder(rt->leftChild);
+      postOrder(rt->leftChild);
       postOrder(rt->rightChild);
       rt->visit();
     }
 }
+
+
+//ºóĞò±éÀúÒÔrootÎª¸ù½ÚµãµÄ×ÓÊ÷£¬·Çµİ¹éÊµÏÖ
 template<class T>
-void BinaryTree<T>::levelOrder(BinaryTreeNode<T> *root)      //æŒ‰å±‚æ¬¡éå†ä»¥rootä¸ºæ ¹èŠ‚ç‚¹çš„å­æ ‘
+void BinaryTree<T>::postOrder()
+{
+
+}
+template<class T>
+void BinaryTree<T>::levelOrder(BinaryTreeNode<T> *root)      //°´²ã´Î±éÀúÒÔrootÎª¸ù½ÚµãµÄ×ÓÊ÷
 {
     ;
 }
 template<class T>
-void BinaryTree<T>::deleteBinaryTree(BinaryTreeNode<T> *root)//åˆ é™¤ä»¥rootä¸ºæ ¹èŠ‚ç‚¹çš„å­æ ‘
+void BinaryTree<T>::deleteBinaryTree(BinaryTreeNode<T> *root)//É¾³ıÒÔrootÎª¸ù½ÚµãµÄ×ÓÊ÷
 {
     ;
 }
@@ -292,12 +361,19 @@ int main()
     BinaryTree<char> a;
     a.createTree();
     a.breadthFirstOrder();
+    cout<<"ÏÈĞò±éÀú¶ş²æÊ÷£¬µİ¹éÊµÏÖ"<<endl;
     a.preOrderTree();
     cout<<endl;
+    cout<<"ÏÈĞò±éÀú¶ş²æÊ÷£¬·Çµİ¹éÊµÏÖ"<<endl;
+    a.preOrder();
+    cout<<endl;
+    cout<<"ÖĞĞò±éÀú¶ş²æÊ÷£¬µİ¹éÊµÏÖ"<<endl;
     a.inOrderTree();
     cout<<endl;
+    cout<<"ºóĞò±éÀú¶ş²æÊ÷£¬µİ¹éÊµÏÖ"<<endl;
     a.postOrderTree();
     cout<<endl;
-    //cout << "Hello world!" << endl;
+    system("pause");
+
     return 0;
 }
