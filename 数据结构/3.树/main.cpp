@@ -3,7 +3,18 @@
 #include"Queue.h"
 #include"Stack.h"
 using namespace std;
+/*
+  关于树的遍历笔记非递归实现 ：
+  ①前序遍历，当前节点不空时，入栈，访问当前节点，当前节点指向左孩子。
+             当前节点为空时，表明当前栈顶节点的左孩子遍历完成，弹栈，当前节点指向栈顶节点的又孩子。
+  ②中序遍历，当前节点不空时，入栈，当前节点指向左孩子。
+             当前节点为空时，表明当前栈顶节点的左孩子遍历完成，弹栈，访问当前栈顶节点，当前节点指向栈顶节点的又孩子。
+  ②后序遍历，当前节点不空时，入栈，当前节点指向左孩子。
+             当前节点为空时，让当前节点指向栈内的某个节点的右孩子，该某个节点要满足有右孩子，并且改右孩子没有被访问过。
+             此时将某个节点再次压入栈中，当前节点指向某个节点的右孩子。
 
+
+*/
 template<class T>
 class BinaryTree;
 
@@ -222,6 +233,8 @@ void BinaryTree<T>::preOrder(BinaryTreeNode<T> *rt)
 template<class T>
 void BinaryTree<T>::preOrder()
 {
+    //书上的代码
+    /*
     ArrayStack<BinaryTreeNode<T> * > stack1;
     BinaryTreeNode<T> *p=root;
     while(!stack1.isEmpty() || p)
@@ -240,6 +253,26 @@ void BinaryTree<T>::preOrder()
           stack1.Pop(p);
         }
     }
+    */
+    //老师讲的
+
+    ArrayStack<BinaryTreeNode<T> * > stack1;
+    BinaryTreeNode<T> *p=root;
+    while(p || !stack1.isEmpty())
+    {
+       if(p)
+       {
+         p->visit();
+         stack1.Push(p);
+         p=p->leftChild;
+       }
+       else
+       {
+        stack1.Pop(p);
+        p=p->rightChild;
+       }
+    }
+
 
 }
 //中序遍历以root为根节点的子树，递归实现
@@ -264,24 +297,41 @@ void BinaryTree<T>::inOrder(BinaryTreeNode<T> *rt)
 template<class T>
 void BinaryTree<T>::inOrder()
 {
-
+   //书上的代码
+   /*
     ArrayStack<BinaryTreeNode<T> * > stack1;
     BinaryTreeNode<T> *p=root;
     while(!stack1.isEmpty() || p)
     {
         if(p)
         {
-           p->visit();
-           if(p->rightChild)
-           {
-             stack1.Push(p->rightChild);
-           }
-          p=p->leftChild;
+           stack1.Push(p);
+           p=p->leftChild;
         }
         else
         {
           stack1.Pop(p);
+          p->visit();
+          p=p->rightChild;
         }
+    }
+    */
+    //老师讲的
+    ArrayStack<BinaryTreeNode<T> * > stack1;
+    BinaryTreeNode<T> *p=root;
+    while(p || !stack1.isEmpty())
+    {
+       if(p)
+       {
+         stack1.Push(p);
+         p=p->leftChild;
+       }
+       else
+       {
+        stack1.Pop(p);
+        p->visit();
+        p=p->rightChild;
+       }
     }
 
 }
@@ -309,6 +359,61 @@ void BinaryTree<T>::postOrder(BinaryTreeNode<T> *rt)
 template<class T>
 void BinaryTree<T>::postOrder()
 {
+    //书上的遍历方法
+    /*
+    ArrayStack<BinaryTreeNode<T> * > stack1;
+    BinaryTreeNode<T> *p=root;
+    BinaryTreeNode<T> *pre=root;
+    while(p)
+    {
+        for(;p->leftChild!=NULL;p=p->leftChild)
+            stack1.Push(p);
+        while(p!=NULL && (p->rightChild==NULL || p->rightChild==pre))
+        {
+            p->visit();
+            pre=p;
+            if(stack1.isEmpty())
+                return;
+            stack1.Pop(p);
+        }
+
+           stack1.Push(p);
+           p=p->rightChild;
+    }
+    */
+    //老师讲的遍历方法
+    ArrayStack<BinaryTreeNode<T> * > stack1;
+    BinaryTreeNode<T> *p=root;
+    BinaryTreeNode<T> *pre=0;
+    BinaryTreeNode<T> *temp;
+    while(p || !stack1.isEmpty())
+    {
+         if(p)
+         {
+          stack1.Push(p);
+          p=p->leftChild;
+         }
+         else
+         {
+
+           while(!stack1.isEmpty())
+           {
+               stack1.Pop(temp);
+               if(temp->rightChild && temp->rightChild!=pre)
+               {
+                  stack1.Push(temp);
+                  p=temp->rightChild;
+                  break;
+               }
+               else
+               {
+                 temp->visit();
+                 pre=temp;
+               }
+           }
+
+         }
+   }
 
 }
 template<class T>
@@ -370,8 +475,15 @@ int main()
     cout<<"中序遍历二叉树，递归实现"<<endl;
     a.inOrderTree();
     cout<<endl;
+    cout<<"中序遍历二叉树，非递归实现"<<endl;
+    a.inOrder();
+    cout<<endl;
     cout<<"后序遍历二叉树，递归实现"<<endl;
     a.postOrderTree();
+    cout<<endl;
+
+    cout<<"后序遍历二叉树，非递归实现"<<endl;
+    a.postOrder();
     cout<<endl;
     system("pause");
 
