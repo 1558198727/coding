@@ -141,7 +141,29 @@ class BinaryTree
      void postOrder();       //后序遍历以root为根节点的子树,非递归实现
      void levelOrder(BinaryTreeNode<T> *root);      //按层次遍历以root为根节点的子树
      void deleteBinaryTree(BinaryTreeNode<T> *root);//删除以root为根节点的子树
-     void createTree();
+     void createTree();//定制的树
+     void createByXian_Zhong(T *xian,int s1,int e1,T *zhong,int s2,int e2);//先序和中序递归实现
+     BinaryTreeNode<T>* createTreeByXian_Zhong(T *xian,int s1,int e1,T *zhong,int s2,int e2);//先序和中序
+     void createByHou_Zhong(T *hou,int s1,int e1,T *zhong,int s2,int e2);//后序和中序递归实现
+     BinaryTreeNode<T>* createTreeByHou_Zhong(T *hou,int s1,int e1,T *zhong,int s2,int e2);//后序和中序
+     int oneChildNodeCounter();////统计度为一的节点个数,递归调用
+     int oneChildNodeCounter(BinaryTreeNode<T> *rt);  //统计度为一的节点个数
+     int twoChildNodeCounter();////统计度为二的节点个数,递归调用
+     int twoChildNodeCounter(BinaryTreeNode<T> *rt);  //统计度为二的节点个数
+     int noneChildNodeCounter();//统计度为零的节点个数,递归调用
+     int noneChildNodeCounter(BinaryTreeNode<T> *rt);  //统计度为零的节点个数
+     int heightCounter();////统计高度,递归调用
+     int heightCounter(BinaryTreeNode<T> *rt);  //统计高度
+     int GetMaxWidth();  //统计最大宽度
+     int GetMaxWidth(BinaryTreeNode<T> * rt);
+     T GetMaxmember();  //返回最大元素
+     T GetMaxmember(BinaryTreeNode<T> * rt);
+     void changeChild();//交换孩子，递归调用
+     void changeChild(BinaryTreeNode<T> * rt);
+     void deleteLeave();//交换孩子，递归调用
+     void deleteLeave(BinaryTreeNode<T> * rt);
+     bool isCompleteTree();//是否为完全二叉树，递归调用
+     bool isCompleteTree(BinaryTreeNode<T> * rt);
 };
 template<class T>
 BinaryTree<T>::BinaryTree()
@@ -460,11 +482,91 @@ void BinaryTree<T>::createTree()
        p0->setLeftChild(p1);
        p0->setRightChild(p2);
 }
+template<class T>
+void BinaryTree<T>::createByXian_Zhong(T *xian,int s1,int e1,T *zhong,int s2,int e2)
+{
+
+    //cout<<"先序&中序构造二叉树"<<endl;
+    root=createTreeByXian_Zhong(xian, s1,e1,zhong,s2,e2);
+}
+
+template<class T>
+BinaryTreeNode<T>* BinaryTree<T>::createTreeByXian_Zhong(T *xian,int s1,int e1,T *zhong,int s2,int e2)
+{
+    //cout<<s1<<" "<<e1<<" "<<s2<<" "<<e2<<endl;
+    BinaryTreeNode<T>* rt=new BinaryTreeNode<T>;
+    rt->element=xian[s1];
+    int i=s2;
+    for(i=s2;i<=e2;i++)
+    {
+        if(zhong[i]==xian[s1])
+            break;
+
+    }
+    //cout<<"i="<<i<<endl;
+    int L=i-s2;
+    int R=e2-i;
+    //cout<<"左子树 "<<L<<endl;
+    //cout<<"右子树"<<R<<endl;
+    if(L>0)
+    {
+        rt->leftChild=createTreeByXian_Zhong(xian,s1+1,s1+L,zhong,s2,i-1);
+    }
+    if(R>0)
+    {
+        rt->rightChild=createTreeByXian_Zhong(xian,s1+L+1,e1,zhong,i+1,e2);
+    }
+    //cout<<"当前返回节点"<<" "<<rt->element<<endl;
+    return rt;
+}
+
+template<class T>
+void BinaryTree<T>::createByHou_Zhong(T *hou,int s1,int e1,T *zhong,int s2,int e2)
+{
+
+    root=createTreeByHou_Zhong(hou,s1,e1,zhong,s2,e2);
+}
+
+template<class T>
+BinaryTreeNode<T>* BinaryTree<T>::createTreeByHou_Zhong(T *hou,int s1,int e1,T *zhong,int s2,int e2)
+{
+    //cout<<s1<<" "<<e1<<" "<<s2<<" "<<e2<<endl;
+    BinaryTreeNode<T>* rt=new BinaryTreeNode<T>;
+    rt->element=hou[e1];
+    int i=s2;
+    for(i=s2;i<=e2;i++)
+    {
+        if(zhong[i]==hou[e1])
+            break;
+    }
+    //cout<<"i="<<i<<endl;
+    int L=i-s2;
+    int R=e2-i;
+    //cout<<"左子树 "<<L<<endl;
+    //cout<<"右子树"<<R<<endl;
+    if(L>0)
+    {
+        rt->leftChild=createTreeByHou_Zhong(hou,s1,s1+L-1,zhong,s2,i-1);
+    }
+    if(R>0)
+    {
+        rt->rightChild=createTreeByHou_Zhong(hou,s1+L,e1-1,zhong,i+1,e2);
+    }
+    //cout<<"当前返回节点"<<" "<<rt->element<<endl;
+    return rt;
+}
 
 int main()
 {
     BinaryTree<char> a;
-    a.createTree();
+    char xian[7]={'A','B','C','D','E','G','F'};
+    char zhong[7]={'C','B','E','G','D','F','A'};
+    char hou[7]={'C','G','E','F','D','B','A'};
+    cout<<"先序&中序构造二叉树"<<endl;
+    a.createByXian_Zhong(xian,0,6,zhong,0,6);
+    //a.createByHou_Zhong(hou,0,6,zhong,0,6);
+    //a.createTree();
+    cout<<"广度遍历二叉树，队列"<<endl;
     a.breadthFirstOrder();
     cout<<"先序遍历二叉树，递归实现"<<endl;
     a.preOrderTree();
@@ -481,10 +583,10 @@ int main()
     cout<<"后序遍历二叉树，递归实现"<<endl;
     a.postOrderTree();
     cout<<endl;
-
     cout<<"后序遍历二叉树，非递归实现"<<endl;
     a.postOrder();
     cout<<endl;
+
     system("pause");
 
     return 0;
