@@ -6,7 +6,7 @@ int main()
 {
     int n;
     void hannuo(int n,char x,char y,char z);
-    cout<<"ÇëÊäÈëNÖµ"<<endl;
+    cout<<"æ±‰è¯ºå¡”é€’å½’å®ç°"<<endl;
     cin>>n;
     hannuo(n,'A','B','C');
 

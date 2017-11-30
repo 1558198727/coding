@@ -3,18 +3,7 @@
 #include"Queue.h"
 //#include"Stack.h"
 using namespace std;
-/*
-  关于树的遍历笔记非递归实现 ：
-  ①前序遍历，当前节点不空时，入栈，访问当前节点，当前节点指向左孩子。
-             当前节点为空时，表明当前栈顶节点的左孩子遍历完成，弹栈，当前节点指向栈顶节点的又孩子。
-  ②中序遍历，当前节点不空时，入栈，当前节点指向左孩子。
-             当前节点为空时，表明当前栈顶节点的左孩子遍历完成，弹栈，访问当前栈顶节点，当前节点指向栈顶节点的又孩子。
-  ②后序遍历，当前节点不空时，入栈，当前节点指向左孩子。
-             当前节点为空时，让当前节点指向栈内的某个节点的右孩子，该某个节点要满足有右孩子，并且改右孩子没有被访问过。
-             此时将某个节点再次压入栈中，当前节点指向某个节点的右孩子。
 
-
-*/
 template<class T>
 class BinarySearchTree;
 
@@ -52,6 +41,7 @@ BinarySearchTreeNode<T>::BinarySearchTreeNode(const T &ele)
    element=ele;
    leftChild=rightChild=0;
 }
+
 template<class T>
 BinarySearchTreeNode<T>::BinarySearchTreeNode(const T &ele,BinarySearchTreeNode<T>*l,BinarySearchTreeNode<T>*r)
 {
@@ -59,6 +49,7 @@ BinarySearchTreeNode<T>::BinarySearchTreeNode(const T &ele,BinarySearchTreeNode<
    leftChild=l;
    rightChild=r;
 };
+
 template<class T>
 BinarySearchTreeNode<T>*BinarySearchTreeNode<T>::getLeftChild()const
 {
@@ -130,6 +121,7 @@ class BinarySearchTree
      bool Find(T value);//搜索树的查找
      bool Insert(T value);//搜索树的插入
      bool Delete(T value);//搜索树的删除
+     bool comDelete(T value);//搜索树的删除
 
 };
 template<class T>
@@ -283,7 +275,11 @@ bool BinarySearchTree<T>::Delete(T value)//搜索树的删除
      }
      else if(p->leftChild && !p->rightChild)
      {
-        if(p->element<pre->element)
+         if(p==root)
+         {
+             root=p->leftChild;
+         }
+        else if(p->element<pre->element)
           pre->leftChild=p->leftChild;
         else
           pre->rightChild=p->leftChild;
@@ -291,7 +287,12 @@ bool BinarySearchTree<T>::Delete(T value)//搜索树的删除
      }
      else if(p->rightChild && !p->leftChild)
      {
-        if(p->element<pre->element)
+          if(p==root)
+         {
+             root=p->rightChild;
+         }
+
+        else if(p->element<pre->element)
           pre->leftChild=p->rightChild;
         else
           pre->rightChild=p->rightChild;
@@ -326,6 +327,66 @@ bool BinarySearchTree<T>::Delete(T value)//搜索树的删除
         }
      }
 }
+
+template<class T>
+bool BinarySearchTree<T>::comDelete(T value)
+{
+    BinarySearchTreeNode<T> *p=root;
+    BinarySearchTreeNode<T> *pre=0;
+    while(p)
+    {
+        if(p->element==value)
+        {
+           break;
+        }
+        else if(p->element>value)
+        {
+            pre=p;
+            p=p->leftChild;
+        }
+        else
+        {
+            pre=p;
+            p=p->rightChild;
+        }
+    }
+    if(p->leftChild && p->rightChild)
+    {
+        BinarySearchTreeNode<T> *pp;
+            pp=p->leftChild;
+          while(pp->rightChild)
+            pp=pp->rightChild;
+
+          pp->rightChild=p->rightChild;
+          p->rightChild=0;
+         if(p!=root)
+         {
+             if(p->element < pre->element)
+            {
+            cout<<"111"<<endl;
+            pre->leftChild=p->leftChild;
+           }
+        else
+          {
+            cout<<"111"<<endl;
+            pre->rightChild=p->leftChild;
+          }
+
+        }
+        else
+        {
+            root=p->leftChild;
+        }
+
+          delete p;
+    }
+    else
+    {
+        Delete(p->element);
+    }
+
+}
+
 template<class T>
 bool BinarySearchTree<T>::isLeaf(BinarySearchTreeNode<T> *rt)
 {
@@ -364,13 +425,18 @@ int main()
     {
         a.Insert(i);
     }
+
     a.breadthFirstOrder();
     for(int i=0;i<10;i++)
     a.Delete(i);
+    //a.comDelete(0);
     a.breadthFirstOrder();
-    for(int i=-10;i<0;i++)
+    for(int i=-10;i<-1;i++)
     a.Delete(i);
     a.breadthFirstOrder();
+    a.Delete(2);
+    a.breadthFirstOrder();
+
     system("pause");
     return 0;
 }
