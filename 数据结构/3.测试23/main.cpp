@@ -1,7 +1,7 @@
 #include <iostream>
 #include <windows.h>
 #include"Queue.h"
-//#include"Stack.h"
+#include"Stack.h"
 using namespace std;
 
 template<class T>
@@ -117,7 +117,8 @@ class BinarySearchTree
      BinarySearchTreeNode<T> *getRoot()const;
      bool isEmpty()const;
      bool isLeaf(BinarySearchTreeNode<T> *rt);
-     void breadthFirstOrder();//广度优先遍历以root为根节点的子树
+     int getBig_k(int k);//大于K的节点个数
+     bool isSearchTree();//是否为二叉搜索树
      bool Find(T value);//搜索树的查找
      bool Insert(T value);//搜索树的插入
      bool Delete(T value);//搜索树的删除
@@ -396,8 +397,9 @@ bool BinarySearchTree<T>::isLeaf(BinarySearchTreeNode<T> *rt)
         return false;
 }
 template<class T>
-void BinarySearchTree<T>::breadthFirstOrder()//广度优先遍历以root为根节点的子树
+int BinarySearchTree<T>::getBig_k(int k)//大于K
 {
+    int counter=0;
     Queue<BinarySearchTreeNode<T>* > que;
     BinarySearchTreeNode<T> *p=root;
     if(p)
@@ -405,18 +407,46 @@ void BinarySearchTree<T>::breadthFirstOrder()//广度优先遍历以root为根节点的子树
     while(!que.IsEmpty())
     {
         que.DeQueue(p);
-        p->visit();
+        if(p->element>k)counter++;
         if(p->leftChild)
             que.EnQueue(p->leftChild);
         if(p->rightChild)
             que.EnQueue(p->rightChild);
     }
-    cout<<endl;
+    return counter;
+}
+template<class T>
+bool BinarySearchTree<T>::isSearchTree()//是否为二叉搜索树
+{
+    ArrayStack< BinarySearchTreeNode<T>* > stack1;
+    BinarySearchTreeNode<T>*p=root;
+    T ele[20];
+    int i=0;
+    while(p || !stack1.isEmpty())
+    {
+       if(p)
+       {
+         stack1.Push(p);
+         p=p->leftChild;
+       }
+       else
+       {
+        stack1.Pop(p);
+        ele[i]=p->element;
+        i++;
+        p=p->rightChild;
+       }
+    }
+    for(int j=0;j<i;j++)
+    {
+        if(ele[i]>ele[i+1])
+            return false;
+    }
+    return true;
 }
 int main()
 {
     BinarySearchTree<int> a;
-    a.breadthFirstOrder();
     for(int i=0;i<10;i++)
     {
         a.Insert(i);
@@ -425,17 +455,12 @@ int main()
     {
         a.Insert(i);
     }
-
-    a.breadthFirstOrder();
-    for(int i=0;i<10;i++)
-    a.Delete(i);
-    //a.comDelete(0);
-    a.breadthFirstOrder();
-    for(int i=-10;i<-1;i++)
-    a.Delete(i);
-    a.breadthFirstOrder();
-    a.Delete(-1);
-    a.breadthFirstOrder();
+    cout<<"大于K的节点个数"<<endl;
+    cout<<a.getBig_k(5)<<endl;
+    if(a.isSearchTree())
+    cout<<"是二叉搜索树"<<endl;
+    else
+    cout<<"不是是二叉搜索树"<<endl;
 
     system("pause");
     return 0;

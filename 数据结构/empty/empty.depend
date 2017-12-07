@@ -1,6 +1,4 @@
 # depslib dependency file v1.0
-1511259528 source:c:\users\lnovo\desktop\github\数据结构\empty\main.cpp
-	<stdio.h>
-	<malloc.h>
-	<stdlib.h>
+1512405938 source:c:\users\lnovo\desktop\github\数据结构\empty\main.cpp
+	<iostream>
 
