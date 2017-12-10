@@ -169,9 +169,9 @@ T & MaxHeap<T>::removeMax()   //从堆顶删除最大元素
 int main()
 {
 
-    int a[10]={1,2,3,4,5,6,7,8,9,10,};
+    int a[13]={11,10,2,8,9,12,7,1,2,3,4,5,6};
     cout<<"最大堆"<<endl;
-    MaxHeap<int> h(a,10);
+    MaxHeap<int> h(a,13);
     h.disp();
     h.buildHeap();
     h.disp();
