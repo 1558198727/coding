@@ -1,7 +1,8 @@
 #ifndef MINHEAP_H
 #define MINHEAP_H
 
-
+#include<iostream>
+using namespace std;
 template<class T>
 class minHeap
 {
@@ -10,6 +11,7 @@ class minHeap
         int currentSize;
         int maxSize;
     public:
+        minHeap();//构造函数
         minHeap(T *array,int num,int max);//构造函数
         virtual ~minHeap(){};
         void disp();
@@ -38,18 +40,33 @@ minHeap<T>::minHeap(T *array,int num,int max=20)//构造函数
         heapArray[i]=array[i];
     }
     currentSize=num;
+    //构造是就是最小堆
+    for(int i=(currentSize-1)/2;i>=0;i--)
+    {
+        siftDown(i);
+    }
+}
+
+template<class T>
+minHeap<T>::minHeap()//构造函数
+{
+    heapArray=new T [20];
+    maxSize=max;
+    currentSize=0;
 }
 
 template<class T>
 void minHeap<T>::disp()
 {
+    /*
  for(int i=0;i<currentSize;i++)
         cout<<heapArray[i]<<" ";
  cout<<endl;
+ */
 }
 
 template<class T>
-void minHeap<T>::buildHeap()             //建立最小堆
+void minHeap<T>::buildHeap()             //建立最大堆
 {
     for(int i=(currentSize-1)/2;i>=0;i--)
     {

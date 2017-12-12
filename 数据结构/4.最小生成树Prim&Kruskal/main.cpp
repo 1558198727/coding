@@ -252,6 +252,10 @@ class AdjGraph : public Graph<EdgeType >
         }
 
     }
+    Edge<EdgeType>* Prim(Graph<EdgeType>& G, int s)
+    {
+        minHeap<Edge<EdgeType> > H;
+    }
 };
 
 int main()
