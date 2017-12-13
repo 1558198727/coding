@@ -360,9 +360,9 @@ Edge<EdgeType>* myPrim(AdjGraph<EdgeType>& G, int s)//从S出发生成最小生成树
             }
             if(v>=0)
             {
-                neighbor[v]=-1;
-                Edge<EdgeType> tempEdge(neighbor[v],v,nearest[v]);
 
+                Edge<EdgeType> tempEdge(neighbor[v],v,nearest[v]);
+                neighbor[v]=-1;
                 cout<<"v"<<v<<endl;
                 MST[i]=tempEdge;
                 for(e=G.FirstEdge(v);G.isEdge(e);e=G.NextEdge(e))

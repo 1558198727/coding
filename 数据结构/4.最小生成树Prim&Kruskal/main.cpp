@@ -1,5 +1,6 @@
 #include <iostream>
-#include <Queue.h>
+#include <stdio.h>
+#include <queue>
 #include <minHeap.h>
 using namespace std;
 
@@ -218,14 +219,15 @@ class AdjGraph : public Graph<EdgeType >
     //广度优先搜索
     void BFS(int i)//从i号节点开始广度优先搜索
     {
-        Queue<int> que;
-        que.EnQueue(i);
+        queue<int> que;
+        que.push(i);
         visit(i);
         this->Mark[i]=1;
         int p;
-        while(!que.IsEmpty())
+        while(!que.empty())
         {
-            que.DeQueue(p);
+            p=que.front();
+            que.pop();
             this->Mark[p]=1;
             for(Edge<EdgeType> e=FirstEdge(p);this->isEdge(e);e=NextEdge(e))
             {
@@ -233,7 +235,7 @@ class AdjGraph : public Graph<EdgeType >
                 {//此处要注意，在节点入队时候就要将Mark置为已访问，否则可能会导致同一节点多次入队
                   visit(e.end);
                   this->Mark[e.end]=1;
-                  que.EnQueue(e.end);
+                  que.push(e.end);
                 }
             }
         }
@@ -252,43 +254,196 @@ class AdjGraph : public Graph<EdgeType >
         }
 
     }
-    Edge<EdgeType>* Prim(Graph<EdgeType>& G, int s)
-    {
-        minHeap<Edge<EdgeType> > H;
-    }
+
 };
+//Prim算法
+template<class EdgeType>
+Edge<EdgeType> * Prim(AdjGraph<EdgeType>& G,int s){
+        int i,j;
+        Edge<EdgeType> *MST;   //存储最小生成树的边
+        EdgeType *nearest;     //nearest[i]表示生成树中点到i点的最小边权值
+        int *neighbour;  //neighbour[i]生成树中与i点最近的点编号
+        int n = G.verticesNum();
+
+        nearest = new EdgeType[n];
+        neighbour = new int[n];
+        MST = new Edge<EdgeType>[n-1];
+        for(i = 0; i<n; i++){
+            neighbour[i] = s;
+     //       cout<<neighbour[i]<<" ";////
+            nearest[i] = 9999;
+        }
+     //   cout<<endl;//////
+        for(Edge<EdgeType> e = G.FirstEdge(s); G.isEdge(e); e = G.NextEdge(e)){
+            i = G.endOfVertex(e);
+            nearest[i] = e.weight;
+      //      cout<<nearest[i]<<" ";///
+        }
+      //  cout<<endl; ////
+
+        neighbour[s] = -1;
+        for(i = 0; i<n-1; i++)
+        {
+//            for(int k=0; k<n;k++){
+//                cout<<nearest[k];
+//                cout<<endl;
+//            }
+            EdgeType min = 9999;
+            int v = -1;
+            for( j = 0; j < n; j++){
+                if(nearest[j] < min && neighbour[j] > -1){
+                    min = nearest[j];
+                    v = j;
+                }
+            }
+
+            if(v >= 0){
+                Edge<EdgeType> tempEdge(neighbour[v], v, nearest[v]);
+                neighbour[v] = -1;
+              //  cout<<v;
+                MST[i] = tempEdge;
+              //  cout<<MST[i].weight;
+                for (Edge<EdgeType> e = G.FirstEdge(v); G.isEdge(e); e=G.NextEdge(e))
+                {
+                    int u = e.end;
+                    if(neighbour[u] != -1 && nearest[u] > e.weight)
+                    {
+                        neighbour[u] = v;
+                       // cout<<u;
+                        nearest[u] = e.weight;
+                    }
+                }
+            }
+        }
+        delete []neighbour;
+        delete []nearest;
+        return MST;
+    }
+
+
+
+template<class EdgeType>
+Edge<EdgeType>* myPrim(AdjGraph<EdgeType>& G, int s)//从S出发生成最小生成树
+{
+        //minHeap<Edge<EdgeType> > H;
+        int i,j;
+        Edge<EdgeType>* MST;
+        Edge<EdgeType> e;
+        EdgeType *nearest;//nearest[i]表示生成树中的点到i点的最小边权值
+        int * neighbor;   //neighbor[i]表示生成树中与i点最近的点的编号，-1表示i已经在生成树集合中
+        int n=G.verticesNum();
+        nearest=new EdgeType [n];
+        neighbor=new int [n];
+        MST=new Edge<EdgeType> [n-1];
+        for(i=0;i<n;i++)
+        {
+            neighbor[i]=s;
+            nearest[i]=9999;
+        }
+        for(e=G.FirstEdge(s);G.isEdge(e);e=G.NextEdge(e))
+        {
+            nearest[e.end]=e.weight;
+        }
+        neighbor[s]=-1;
+
+        for(i=0;i<n;i++)
+        {
+            EdgeType min=9999;
+            int v=-1;
+            for(j=0;j<n;j++)
+            {
+                if(nearest[j]<min && neighbor[j]>-1)
+                {
+                    min=nearest[j];
+                    v=j;
+                }
+            }
+            if(v>=0)
+            {
+
+                Edge<EdgeType> tempEdge(neighbor[v],v,nearest[v]);
+                neighbor[v]=-1;
+                cout<<"v"<<v<<endl;
+                MST[i]=tempEdge;
+                for(e=G.FirstEdge(v);G.isEdge(e);e=G.NextEdge(e))
+                {
+                    int u=e.end;
+                    if(neighbor[u]!=-1 && nearest[u]>e.weight)
+                    {
+                        neighbor[u]=v;
+                        nearest[u]=e.weight;
+                    }
+                }
+            }
+        }
+
+        delete [] neighbor;
+        delete [] nearest;
+        return MST;
+}
+
 
 int main()
 {
-    //课本p160页的图
-    int tem[8][8]={
-        {0,1,1,0,0,0,0,0},
-        {1,0,0,1,1,0,0,0},
-        {1,0,0,0,0,1,1,0},
-        {0,1,0,0,0,0,0,1},
-        {0,1,0,0,0,0,0,1},
-        {0,0,1,0,0,0,1,0},
-        {0,0,1,0,0,1,0,0},
-        {0,0,0,1,1,0,0,0},
+    //课本p163页的图
+    /*
+    int tem[6][6]={
+        {0,6,1,5,0,0},
+        {6,0,5,0,3,0},
+        {1,5,0,5,6,4},
+        {5,0,5,0,0,2},
+        {0,3,6,0,0,6},
+        {0,0,4,2,6,0},
     };
-    int ** a=new int *[8];
-    for(int i=0;i<8;i++)
+    int ** a=new int *[6];
+    for(int i=0;i<6;i++)
     {
-        a[i]=new int [8];
+        a[i]=new int [6];
     }
-    for(int i=0;i<8;i++)
-      for(int j=0;j<8;j++)
+    for(int i=0;i<6;i++)
+      for(int j=0;j<6;j++)
     {
         a[i][j]=tem[i][j];
     }
 
-    AdjGraph<int> p(8,a);
+    AdjGraph<int> p(6,a);
     p.disp();
-    cout<<"深度优先搜索"<<endl;
-    p.DFSGraph();
+    //cout<<"深度优先搜索"<<endl;
+    //p.DFSGraph();
+    //cout<<endl;
+    //cout<<"广度优先搜索"<<endl;
+    //p.BFSGraph();
+    Edge<int>*prim;
+    /*
+    prim=Prim(p,0);
+    for(int i=0;i<p.verticesNum()-1;i++)
+    {
+        cout<<"start"<<" "<<prim[i].start<<endl;
+        cout<<"end"<<" "<<prim[i].end<<endl;
+        cout<<"weight"<<" "<<prim[i].weight<<endl;
+        cout<<endl<<endl;
+    }
+    prim=myPrim(p,0);
+    char v;
+    for(int i=0;i<p.verticesNum()-1;i++)
+    {
+        cout<<"start"<<" "<<prim[i].start<<endl;
+        cout<<"end"<<" "<<prim[i].end<<endl;
+        cout<<"weight"<<" "<<prim[i].weight<<endl;
+        cout<<endl<<endl;
+    }
     cout<<endl;
-    cout<<"广度优先搜索"<<endl;
-    p.BFSGraph();
-    cout<<endl;
+    */
+    minHeap<int> a;
+    for(int i=10;i>0;i--)
+    a.insert(i);
+    a.insert(11);
+    a.insert(12);
+    a.insert(-1);
+    a.insert(-5);
+    a.disp();
+    for(int i=0;i<12;i++)
+    cout<<a.removeMin()<<endl;
+
     return 0;
 }

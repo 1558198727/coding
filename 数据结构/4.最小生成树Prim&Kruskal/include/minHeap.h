@@ -1,8 +1,8 @@
 #ifndef MINHEAP_H
 #define MINHEAP_H
-
 #include<iostream>
 using namespace std;
+
 template<class T>
 class minHeap
 {
@@ -11,7 +11,7 @@ class minHeap
         int currentSize;
         int maxSize;
     public:
-        minHeap();//构造函数
+        minHeap();//无参构造函数
         minHeap(T *array,int num,int max);//构造函数
         virtual ~minHeap(){};
         void disp();
@@ -28,6 +28,14 @@ class minHeap
         T & removeMin();   //从堆顶删除最大元素
 
 };
+template<class T>
+minHeap<T>::minHeap()//构造函数
+{
+    heapArray=new T [20];
+    maxSize=20;
+    currentSize=0;
+}
+
 
 template<class T>
 minHeap<T>::minHeap(T *array,int num,int max=20)//构造函数
@@ -40,33 +48,18 @@ minHeap<T>::minHeap(T *array,int num,int max=20)//构造函数
         heapArray[i]=array[i];
     }
     currentSize=num;
-    //构造是就是最小堆
-    for(int i=(currentSize-1)/2;i>=0;i--)
-    {
-        siftDown(i);
-    }
-}
-
-template<class T>
-minHeap<T>::minHeap()//构造函数
-{
-    heapArray=new T [20];
-    maxSize=max;
-    currentSize=0;
 }
 
 template<class T>
 void minHeap<T>::disp()
 {
-    /*
  for(int i=0;i<currentSize;i++)
         cout<<heapArray[i]<<" ";
  cout<<endl;
- */
 }
 
 template<class T>
-void minHeap<T>::buildHeap()             //建立最大堆
+void minHeap<T>::buildHeap()             //建立最小堆
 {
     for(int i=(currentSize-1)/2;i>=0;i--)
     {
@@ -106,7 +99,7 @@ int minHeap<T>::parent(int pos)const       //返回父节点的位置
 template<class T>
 bool minHeap<T>::remove(int pos,T & node)  //删除给定下标的元素
 {
-
+;
 }
 
 template<class T>
@@ -182,9 +175,12 @@ void minHeap<T>::moveMin()    // 从堆顶移动最小元素到尾部
 template<class T>
 T & minHeap<T>::removeMin()   //从堆顶删除最小元素
 {
-    moveMin();
+    T temp = heapArray[0];
+    heapArray[0] = heapArray[currentSize - 1];
+    heapArray[currentSize - 1] = temp;
     currentSize --;
     siftDown(0);
+    return temp;
 }
 
 

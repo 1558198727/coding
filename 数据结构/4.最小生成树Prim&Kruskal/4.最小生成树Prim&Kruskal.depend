@@ -1,12 +1,13 @@
 # depslib dependency file v1.0
-1513070934 source:c:\users\lnovo\desktop\github\数据结构\4.最小生成树prim&kruskal\main.cpp
+1513162527 source:c:\users\lnovo\desktop\github\数据结构\4.最小生成树prim&kruskal\main.cpp
 	<iostream>
-	<Queue.h>
+	<stdio.h>
+	<queue>
 	<minHeap.h>
 
 1513071069 c:\users\lnovo\desktop\github\数据结构\4.最小生成树prim&kruskal\include\queue.h
 	<iostream>
 
-1513071199 c:\users\lnovo\desktop\github\数据结构\4.最小生成树prim&kruskal\include\minheap.h
+1513162728 c:\users\lnovo\desktop\github\数据结构\4.最小生成树prim&kruskal\include\minheap.h
 	<iostream>
 

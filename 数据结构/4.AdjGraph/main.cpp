@@ -1,5 +1,6 @@
 #include <iostream>
 #include <Queue.h>
+#include <stack>
 #include <minHeap.h>
 using namespace std;
 
@@ -79,14 +80,15 @@ class Graph
           return false;
         }
     }
-    int startOfVertex(Edge<EdgeType> oneEdge)
+    int startOfEdge(Edge<EdgeType> oneEdge)
     {
         return oneEdge.start;
     }
-    int endOfVertex(Edge<EdgeType> oneEdge)
+    int endOfEdge(Edge<EdgeType> oneEdge)
     {
         return oneEdge.end;
     }
+
     EdgeType weight(Edge<EdgeType> oneEdge) //返回oneEdge的权重
     {
         return oneEdge.weight;
@@ -215,6 +217,52 @@ class AdjGraph : public Graph<EdgeType >
         }
 
     }
+    void DFSGraphNoReverse()//对图进行深度优先搜索,非递归实现
+    {
+        int i,v,u;
+        stack<int> s;
+        Edge<EdgeType> e;
+        for(i=0;i<this->verticesNum();i++)
+        {
+            this->Mark[i]=0;
+        }
+        for(i=0;i<this->verticesNum();i++)
+        {
+            if(this->Mark[i]==0)
+            {
+                s.push(i);
+                visit(i);
+                v=s.top();
+                this->Mark[i]=1;
+                while(!s.empty())
+                {
+                    v=s.top();
+                    int flag=0;
+                    int j;
+                    for(j=0;j<this->vertexNum;j++)
+                    {
+                        if(matrix[v][j]>0 && this->Mark[j]==0)
+                        {
+                            flag=1;
+                            break;
+                        }
+                    }
+                    if(flag)
+                    {
+                        visit(j);
+                        s.push(j);
+                        this->Mark[j]=1;
+                    }
+                    else
+                    {
+                        s.pop();
+                    }
+
+                }
+            }
+        }
+    }
+
     //广度优先搜索
     void BFS(int i)//从i号节点开始广度优先搜索
     {
@@ -252,11 +300,44 @@ class AdjGraph : public Graph<EdgeType >
         }
 
     }
+    void setEdge(int s,int e,int w)
+    {
+       matrix[s][e]=w;
+    }
+    void delPoint(int p)
+    {
+        int n=this->verticesNum();
+        for(int i=0;i<n;i++)
+        {
+            matrix[p][i]=0;
+            matrix[i][p]=0;
+        }
+        this->vertexNum--;
+    }
+    void delEdge(int s,int e)
+    {
+        matrix[s][e]=0;
+    }
 };
 
 int main()
 {
     //课本p160页的图
+
+    AdjGraph<int> p1(8);
+    p1.disp();
+    cout<<"插入边"<<endl;
+    p1.setEdge(0,1,1);
+    p1.setEdge(0,2,1);
+    p1.setEdge(0,3,1);
+    p1.setEdge(0,4,1);
+    p1.disp();
+    cout<<"删除边"<<endl;
+    p1.delEdge(0,4);
+    p1.delEdge(0,3);
+    p1.delEdge(0,2);
+    p1.delEdge(0,1);
+    p1.disp();
     int tem[8][8]={
         {0,1,1,0,0,0,0,0},
         {1,0,0,1,1,0,0,0},
@@ -282,6 +363,9 @@ int main()
     p.disp();
     cout<<"深度优先搜索"<<endl;
     p.DFSGraph();
+    cout<<endl;
+    cout<<"非递归"<<endl;
+    p.DFSGraphNoReverse();
     cout<<endl;
     cout<<"广度优先搜索"<<endl;
     p.BFSGraph();
