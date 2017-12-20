@@ -11,7 +11,7 @@ class minHeap
         int currentSize;
         int maxSize;
     public:
-        minHeap();//无参构造函数
+        minHeap(int n);//构造函数
         minHeap(T *array,int num,int max);//构造函数
         virtual ~minHeap(){};
         void disp();
@@ -24,16 +24,23 @@ class minHeap
         void siftDown(int left);        //筛选法函数，参数left表示开始处理的数组下标
         void siftUp(int position);      //从position开始向上调整，使序列成为堆
         bool insert(const T& newNode);  //向堆中插入新元素newNode
+        bool isEmpty();  //判断是否为空
         void moveMin();    // 从堆顶移动最大元素到尾部
         T & removeMin();   //从堆顶删除最大元素
 
 };
 template<class T>
-minHeap<T>::minHeap()//构造函数
+minHeap<T>::minHeap(int n)//构造函数
 {
-    heapArray=new T [20];
-    maxSize=20;
-    currentSize=0;
+    if(n<0)
+        cout<<"最小堆元素个数需要大于0"<<endl;
+    else
+    {
+        heapArray=new T [n];
+        maxSize=n;
+        currentSize=0;
+    }
+
 }
 
 
@@ -54,7 +61,7 @@ template<class T>
 void minHeap<T>::disp()
 {
  for(int i=0;i<currentSize;i++)
-        cout<<heapArray[i]<<" ";
+        cout<<heapArray[i].weight<<" ";
  cout<<endl;
 }
 
@@ -102,6 +109,14 @@ bool minHeap<T>::remove(int pos,T & node)  //删除给定下标的元素
 ;
 }
 
+template<class T>
+bool minHeap<T>::isEmpty()  //删除给定下标的元素
+{
+  if(currentSize==0)
+    return true;
+  else
+    return false;
+}
 template<class T>
 void minHeap<T>::siftDown(int i)        //筛选法函数，参数left表示开始处理的数组下标
 {

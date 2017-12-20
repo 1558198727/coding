@@ -1,5 +1,6 @@
 #include <iostream>
 
+#include <queue>
 using namespace std;
 
 template<class EdgeType>
@@ -8,10 +9,32 @@ class Edge
 public:
 	int start, end;//边的起始节点，终止节点
 	EdgeType weight;//边的权重（应该可以定义为int）
-	Edge();
-	Edge(int st, int en, int w);
-	bool operator > (Edge oneEdge);
-	bool operator < (Edge oneEdge);
+	Edge()
+	{
+		start = 0;
+		end = 0;
+		weight = 0;
+	}
+	Edge(int st, int en, int w)
+	{
+		start = st;
+		end = en;
+		weight = w;
+	}
+	bool operator > (Edge oneEdge)
+	{
+		if (weight>oneEdge.weight)
+			return true;
+		else
+			return false;
+	}
+	bool operator < (Edge oneEdge)
+	{
+		if (weight<oneEdge.weight)
+			return true;
+		else
+			return false;
+	}
 };
 
 template<class EdgeType>
@@ -47,7 +70,7 @@ public:
 	}
 	bool isEdge(Edge<EdgeType> oneEdge)
 	{
-		if (oneEdge.end >= 0 && oneEdge.start >= 0 && oneEdge.weight>0)//判断条件还不清楚
+		if (oneEdge.end >= 0 && oneEdge.start >= 0 && oneEdge.weight>0 && oneEdge.start != oneEdge.end)//判断条件还不清楚
 		{
 			return true;
 		}
@@ -88,11 +111,11 @@ public:
 		for (int i = 0; i<verNum; i++)
 			for (int j = 0; j<verNum; j++)
 			{
-				matrix[i][j] = 0;
+				matrix[i][j] = 999;
 			}
 	}
 
-	AdjGraph(int verNum, int ** a) :Graph<EdgeType>(verNum)
+	AdjGraph(int verNum, int **  a) :Graph<EdgeType>(verNum)
 	{
 		matrix = new int *[verNum];
 		for (int i = 0; i<verNum; i++)
@@ -102,8 +125,46 @@ public:
 		for (int i = 0; i<verNum; i++)
 			for (int j = 0; j<verNum; j++)
 			{
+
 				matrix[i][j] = a[i][j];
 			}
+	}
+
+	EdgeType getIJ(int i, int j)
+	{
+		if (i<this->vertexNum && j<this->vertexNum)
+			return matrix[i][j];
+		else
+		{
+			cout << "邻接矩阵越界" << endl;
+			return 0;
+		}
+
+	}
+	int EdgesNum()
+	{
+		int edgeNum = 0;
+		for (int i = 0; i<this->vertexNum; i++)
+		{
+			for (int j = 0; j<this->vertexNum; j++)
+				if (matrix[i][j]<999)
+					edgeNum++;
+		}
+		this->edgeNum = edgeNum;
+		return edgeNum;
+	}
+	void disp()
+	{
+		cout << endl;
+		cout << "此图的领接矩阵为" << endl;
+		for (int i = 0; i<this->vertexNum; i++)
+		{
+			for (int j = 0; j<this->vertexNum; j++)
+			{
+				cout << matrix[i][j] << " ";
+			}
+			cout << endl;
+		}
 	}
 	~AdjGraph()
 	{
@@ -116,61 +177,199 @@ public:
 	Edge<EdgeType> FirstEdge(int oneVer) //返回顶点的第一条边
 	{
 		Edge<EdgeType> tem;
-		tem->start = oneVer;
+		tem.start = oneVer;
 		for (int i = 0; i<this->vertexNum; i++)
 		{
-			if (matrix[oneVer][i] != 0)
+			if (matrix[oneVer][i]<999)
 			{
-				tem->end = i;
-				tem->weight = matrix[oneVer][i];
+				tem.end = i;
+				tem.weight = matrix[oneVer][i];
 				return tem;
 				//break;
 			}
 		}
-		cout << "没有符合条件的边" << endl;
-		return;
+		//cout<<"没有符合条件的边"<<endl;
+		//return;
 	}
 	Edge<EdgeType> NextEdge(Edge<EdgeType> oneEdge)//返回与oneEdg有相同起点的下一条边
 	{
 		Edge<EdgeType> tem;
-		tem->start = oneEdge->start;
+		tem.start = oneEdge.start;
 		for (int i = oneEdge.end + 1; i<this->vertexNum; i++)
 		{
-			if (matrix[oneEdge.start][i] != 0)
+			if (matrix[oneEdge.start][i]<999)
 			{
-				tem->end = i;
-				tem->weight = matrix[oneEdge.start][i];
+				tem.end = i;
+				tem.weight = matrix[oneEdge.start][i];
 				return tem;
 			}
 		}
-		cout << "没有符合条件的边" << endl;
-		return;
+		//cout<<"没有符合条件的边"<<endl;
+		//return;
 	}
+	void visit(int i)
+	{
+		cout << i + 1 << " ";
+	}
+
+	//深度优先搜索
+	void DFS(int i)//从i号节点开始深度优先搜索
+	{
+		this->Mark[i] = 1;
+		visit(i);
+		for (Edge<EdgeType> e = FirstEdge(i); this->isEdge(e); e = NextEdge(e))
+		{
+			if (this->Mark[e.end] == 0)
+			{
+				DFS(e.end);
+			}
+		}
+
+	}
+	void DFSGraph()//对图进行深度优先搜索
+	{
+		for (int i = 0; i<this->vertexNum; i++)
+			this->Mark[i] = 0;  //标记都未访问
+		for (int i = 0; i<this->vertexNum; i++)
+		{
+			if (this->Mark[i] == 0)
+			{
+				DFS(i);
+			}
+		}
+
+	}
+	//广度优先搜索
+	void BFS(int i)//从i号节点开始广度优先搜索
+	{
+		queue<int> que;
+		que.push(i);
+		visit(i);
+		this->Mark[i] = 1;
+		int p;
+		while (!que.empty())
+		{
+			p = que.front();
+			que.pop();
+			this->Mark[p] = 1;
+			for (Edge<EdgeType> e = FirstEdge(p); this->isEdge(e); e = NextEdge(e))
+			{
+				if (this->Mark[e.end] == 0)
+				{//此处要注意，在节点入队时候就要将Mark置为已访问，否则可能会导致同一节点多次入队
+					visit(e.end);
+					this->Mark[e.end] = 1;
+					que.push(e.end);
+				}
+			}
+		}
+	}
+
+	void BFSGraph()//对图进行广度优先搜索
+	{
+		for (int i = 0; i<this->vertexNum; i++)
+			this->Mark[i] = 0;  //标记都未访问
+		for (int i = 0; i<this->vertexNum; i++)
+		{
+			if (this->Mark[i] == 0)
+			{
+				BFS(i);
+			}
+		}
+		cout << endl;
+	}
+
 };
+
+//Dijkstra算法
+template<class EdgeType>
+void Dijkstra(AdjGraph<EdgeType>& G, int s, EdgeType D[], int Path[])//从S出发生成最短路径
+{
+	int n = G.verticesNum();
+	for (int i = 0; i<n; i++)
+	{
+		G.Mark[i] = 0;
+		D[i] = G.getIJ(s, i);
+		Path[i] = -1;
+	}
+	G.Mark[s] = 1;
+	D[s] = 0;
+	Path[s] = s;
+	for (int i = 0; i<n; i++)
+	{
+		EdgeType min = D[1];
+		int k = 0;
+		for (int j = 1; j<n; j++)
+		{
+			//min=D[0];
+			if (G.Mark[j] == 0 && min>D[j])
+			{
+				min = D[j];
+				k = j;
+				cout << "00000" << endl;
+			}
+		}
+		cout << "找到最短路径" <<k<< endl;
+		D[k] = min;
+		G.Mark[k] = 1;
+		for (Edge<EdgeType> e = G.FirstEdge(k); G.isEdge(e); e = G.NextEdge(e))
+		{
+			int vertexEnd = e.end;
+			if (G.Mark[vertexEnd] == 0 && D[vertexEnd]>(D[k] + e.weight))
+			{
+				D[vertexEnd] = D[k] + e.weight;
+				Path[vertexEnd] = k;
+				cout << "111111" << endl;
+			}
+		}
+
+	}
+
+}
+
 
 int main()
 {
-	int tem[8][8] = {
-		{ 0,1,1,0,0,0,0,0 },
-		{ 1,0,0,1,1,0,0,0 },
-		{ 1,0,0,0,0,1,1,0 },
-		{ 0,1,0,0,0,0,0,1 },
-		{ 0,1,0,0,0,0,0,1 },
-		{ 0,0,1,0,0,0,1,0 },
-		{ 0,0,1,0,0,1,0,0 },
-		{ 0,0,0,1,1,0,0,0 },
+	//课本p163页的图
+	int tem[6][6] = {
+		{ 999, 12, 10,999, 30,999 },
+		{ 999,5  ,999,999,999,999 },
+		{ 999,999,999,50 ,999,999 },
+		{ 999,999,999,999,999, 10 },
+		{ 999,999,999, 20,999, 60 },
+		{ 999,999,999,999,999,999 },
 	};
-	int ** a = new int *[8];
-	for (int i = 0; i<8; i++)
+	int ** a = new int *[6];
+	for (int i = 0; i<6; i++)
 	{
-		a[i] = new int[8];
+		a[i] = new int[6];
 	}
-	for (int i = 0; i<8; i++)
-		for (int j = 0; j<8; j++)
+	for (int i = 0; i<6; i++)
+		for (int j = 0; j<6; j++)
 		{
 			a[i][j] = tem[i][j];
 		}
-	AdjGraph<int> p(10, a);
 
+	AdjGraph<int> p(6, a);
+	p.disp();
+	cout << "深度优先搜索" << endl;
+	//p.DFSGraph();
+	cout << endl;
+	cout << "广度优先搜索" << endl;
+	//p.BFSGraph();
+	int D[5];
+	int path[5];
+	Dijkstra(p, 0, D, path);
+	cout << "D" << endl;
+	for (int i = 0; i<5; i++)
+	{
+		cout << D[i] << " ";
+	}
+	cout << endl;
+	cout << "Path" << endl;
+	for (int i = 0; i<5; i++)
+	{
+		cout << path[i] << " ";
+	}
+	cout << endl;
 	return 0;
 }

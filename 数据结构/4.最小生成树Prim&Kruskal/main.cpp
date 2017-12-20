@@ -130,6 +130,19 @@ class AdjGraph : public Graph<EdgeType >
             matrix[i][j]=a[i][j];
           }
     }
+
+    int EdgesNum()
+    {
+        int edgeNum=0;
+        for(int i=0;i<this->vertexNum;i++)
+        {
+            for(int j=0;j<this->vertexNum;j++)
+                if(matrix[i][j]!=0)
+                    edgeNum++;
+        }
+        this->edgeNum=edgeNum;
+        return edgeNum;
+    }
     void disp()
     {
         cout<<endl;
@@ -252,7 +265,7 @@ class AdjGraph : public Graph<EdgeType >
                 BFS(i);
             }
         }
-
+       cout<<endl;
     }
 
 };
@@ -382,11 +395,144 @@ Edge<EdgeType>* myPrim(AdjGraph<EdgeType>& G, int s)//从S出发生成最小生成树
         return MST;
 }
 
+class UFSets  //等价类
+{
+private:
+    int n;        //等价类的元素个数
+    int * root;   //root[i]表示i所在等价类的代表元素
+    int * next;   //next[i]表示在等价类中i后面的元素编号
+    int * length; //length[i]表示i所代表的等价类的元素个数
+    int * mark;   //标记i是否被访问
+public:
+    UFSets(int size)
+    {
+        n=size;
+        root=new int [n];
+        next=new int [n];
+        length=new int [n];
+        mark=new int [n];
+        for(int i=0;i<n;i++)
+        {
+            root[i]=next[i]=i;
+            length[i]=1;
+        }
+    }
+    int rootOf(int i)
+    {
+        return root[i];
+    }
+    void Union(int a,int b)
+    {
+        int rootOfa=root[a];
+        int rootOfb=root[b];
+        if(rootOfa==rootOfb)
+        {
+            return;
+        }
+        else if(length[rootOfa]>=length[rootOfb])
+        {
+            length[rootOfa]+=length[rootOfb];
+            root[rootOfb]=root[a];
+            for(int j=next[rootOfb];j!=rootOfb;j=next[j])
+            {
+                root[j]=rootOfa;
+            }
 
+        }
+        else
+        {
+            length[rootOfb]+=length[rootOfa];
+            root[rootOfa]=root[b];
+            for(int j=next[rootOfa];j!=rootOfa;j=next[j])
+            {
+                root[j]=rootOfb;
+            }
+        }
+
+        int temp;
+        temp=next[rootOfa];
+        next[rootOfa]=next[rootOfb];
+        next[rootOfb]=temp;
+    }
+
+    void dispmark()
+    {
+        for(int i=0;i<n;i++)
+            cout<<mark[i]<<"  ";
+            cout<<endl;
+    }
+
+    void disp()
+    {
+        for(int i=0;i<n;i++)
+            mark[i]=0;
+        for(int i=0;i<n;i++)
+        {
+            if(mark[i]==0)
+            {
+                int rootOfi=rootOf(i);
+                cout<<rootOfi<<" ";
+                mark[rootOfi]=1;
+                for(int j=next[rootOfi];j!=rootOfi;j=next[j])
+                {
+                  cout<<j<<" ";
+                   mark[j]=1;
+                }
+                cout<<endl<<endl;
+            }
+        }
+    }
+};
+
+//Kruskal算法
+template<class EdgeType>
+Edge<EdgeType>* Kruskal(AdjGraph<EdgeType>& G)//从S出发生成最小生成树
+{
+        int n=G.verticesNum();
+        UFSets set(n);   //定义有n个顶点的等价类
+        Edge<EdgeType>* MST=new Edge<EdgeType> [n-1];   //存放边的数组
+        minHeap<Edge<EdgeType> > H(G.EdgesNum());
+        Edge<EdgeType> edge;
+        //将所有边记录在最小堆中
+        for(int i=0;i<n;i++)
+        {
+            for(edge=G.FirstEdge(i);G.isEdge(edge);edge=G.NextEdge(edge))
+            {
+                if(edge.start<edge.end)
+                {
+                    H.insert(edge);
+                }
+            }
+        }
+        cout<<"dun"<<endl;
+        //H.disp();
+        int edgeNum=0;
+        while(edgeNum<n-1)
+        {
+            if(!H.isEmpty())
+            {
+                edge=H.removeMin();
+                int a=edge.start;
+                int b=edge.end;
+               if(set.rootOf(a)!=set.rootOf(b))
+               {
+                   set.Union(a,b);
+                  MST[edgeNum++]=edge;
+               }
+
+            }
+            else
+            {
+                cout<<"不存在最小生成树"<<endl;
+                return 0;
+            }
+        }
+        return MST;
+}
 int main()
 {
     //课本p163页的图
-    /*
+
     int tem[6][6]={
         {0,6,1,5,0,0},
         {6,0,5,0,3,0},
@@ -408,13 +554,14 @@ int main()
 
     AdjGraph<int> p(6,a);
     p.disp();
-    //cout<<"深度优先搜索"<<endl;
-    //p.DFSGraph();
-    //cout<<endl;
-    //cout<<"广度优先搜索"<<endl;
-    //p.BFSGraph();
-    Edge<int>*prim;
+    cout<<"深度优先搜索"<<endl;
+    p.DFSGraph();
+    cout<<endl;
+    cout<<"广度优先搜索"<<endl;
+    p.BFSGraph();
+    //prim算法
     /*
+    Edge<int>*prim;
     prim=Prim(p,0);
     for(int i=0;i<p.verticesNum()-1;i++)
     {
@@ -427,13 +574,27 @@ int main()
     char v;
     for(int i=0;i<p.verticesNum()-1;i++)
     {
-        cout<<"start"<<" "<<prim[i].start<<endl;
-        cout<<"end"<<" "<<prim[i].end<<endl;
+        cout<<"start"<<" "<<prim[i].start+1<<endl;
+        cout<<"end"<<" "<<prim[i].end+1<<endl;
         cout<<"weight"<<" "<<prim[i].weight<<endl;
         cout<<endl<<endl;
     }
     cout<<endl;
     */
+
+    //Kruskal算法
+    Edge<int>*kru;
+
+    kru=Kruskal(p);
+    for(int i=0;i<p.verticesNum()-1;i++)
+    {
+        cout<<"start"<<" "<<kru[i].start+1<<endl;
+        cout<<"end"<<" "<<kru[i].end+1<<endl;
+        cout<<"weight"<<" "<<kru[i].weight<<endl;
+        cout<<endl<<endl;
+    }
+    cout<<endl;
+    /*
     minHeap<int> a;
     for(int i=10;i>0;i--)
     a.insert(i);
@@ -445,5 +606,13 @@ int main()
     for(int i=0;i<12;i++)
     cout<<a.removeMin()<<endl;
 
+    UFSets a(6);
+    a.Union(0,4);
+    a.Union(4,3);
+    a.Union(1,2);
+    a.Union(5,2);
+    a.Union(5,0);
+    a.disp();
+    */
     return 0;
 }
