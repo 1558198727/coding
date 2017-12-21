@@ -419,7 +419,9 @@ int main()
 	Edge<int > *p = DestroyCircle(a);
 	for (int i=0;i<n-1;i++)
 	{
-		cout<<p->start<<"->"<<p->over<<" = "<<p->weight<<endl;
+		cout<<"start "<<p->start<<endl;
+		cout<<"end "<<p->over<<endl;
+		cout<<"weight "<<p->weight<<endl<<endl;
 		p++;
 	}
 	return 0;

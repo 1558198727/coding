@@ -584,6 +584,7 @@ int main()
     */
 
     //KruskalËã·¨
+    //¿Î±¾p163Ò³µÄÍ¼
     Edge<int>*kru;
 
     kru=Kruskal(p);
