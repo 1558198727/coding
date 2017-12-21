@@ -35,3 +35,15 @@
 1509712712 c:\users\lnovo\desktop\github\数据结构\3.5\include\stack.h
 	<iostream>
 
+1513656932 source:c:\users\lnovo\desktop\github\coding\数据结构\3.5\main.cpp
+	<iostream>
+	<windows.h>
+	"Queue.h"
+	"Stack.h"
+
+1513656932 c:\users\lnovo\desktop\github\coding\数据结构\3.5\include\queue.h
+	<iostream>
+
+1513656932 c:\users\lnovo\desktop\github\coding\数据结构\3.5\include\stack.h
+	<iostream>
+

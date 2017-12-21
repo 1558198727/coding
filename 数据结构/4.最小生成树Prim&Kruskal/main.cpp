@@ -541,18 +541,19 @@ int main()
         {0,3,6,0,0,6},
         {0,0,4,2,6,0},
     };
-    int ** a=new int *[6];
-    for(int i=0;i<6;i++)
+    int n=6;
+    int ** a=new int *[n];
+    for(int i=0;i<n;i++)
     {
-        a[i]=new int [6];
+        a[i]=new int [n];
     }
-    for(int i=0;i<6;i++)
-      for(int j=0;j<6;j++)
+    for(int i=0;i<n;i++)
+      for(int j=0;j<n;j++)
     {
         a[i][j]=tem[i][j];
     }
 
-    AdjGraph<int> p(6,a);
+    AdjGraph<int> p(n,a);
     p.disp();
     cout<<"深度优先搜索"<<endl;
     p.DFSGraph();

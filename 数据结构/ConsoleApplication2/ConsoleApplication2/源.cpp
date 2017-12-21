@@ -1,8 +1,9 @@
 #include <iostream>
-
 #include <queue>
 using namespace std;
-
+const int INFINIT = 999;
+const int VISITED = 1;
+const int UNVISITED = 0;
 template<class EdgeType>
 class Edge
 {
@@ -189,7 +190,7 @@ public:
 			}
 		}
 		//cout<<"没有符合条件的边"<<endl;
-		//return;
+		return;
 	}
 	Edge<EdgeType> NextEdge(Edge<EdgeType> oneEdge)//返回与oneEdg有相同起点的下一条边
 	{
@@ -205,7 +206,7 @@ public:
 			}
 		}
 		//cout<<"没有符合条件的边"<<endl;
-		//return;
+		return;
 	}
 	void visit(int i)
 	{
@@ -280,48 +281,49 @@ public:
 
 };
 
-//Dijkstra算法
+//Floyed算法
 template<class EdgeType>
-void Dijkstra(AdjGraph<EdgeType>& G, int s, EdgeType D[], int Path[])//从S出发生成最短路径
+void Floyed(AdjGraph<EdgeType>& G, EdgeType ** Adj, int **Path)
 {
 	int n = G.verticesNum();
 	for (int i = 0; i<n; i++)
 	{
-		G.Mark[i] = 0;
-		D[i] = G.getIJ(s, i);
-		Path[i] = -1;
+		for (int j = 0; j<n; j++)
+		{
+			if (i == j)
+			{
+				Adj[i][j] = 0;
+				Path[i][j] = i;
+			}
+			else
+			{
+				Adj[i][j] = INFINITY;
+				Path[i][j] = -1;
+				cout << "000000000" << endl;
+			}
+		}
 	}
-	G.Mark[s] = 1;
-	D[s] = 0;
-	Path[s] = s;
-	for (int i = 0; i<n; i++)
+	for (int v = 0; v<n; v++)
 	{
-		EdgeType min = D[1];
-		int k = 0;
-		for (int j = 1; j<n; j++)
+		for (Edge<EdgeType> e = G.FirstEdge(v); G.isEdge(e); e = G.NextEdge(e))
 		{
-			//min=D[0];
-			if (G.Mark[j] == 0 && min>D[j])
-			{
-				min = D[j];
-				k = j;
-				cout << "00000" << endl;
-			}
+			Adj[v][e.end] = G.weight(e);
 		}
-		cout << "找到最短路径" <<k<< endl;
-		D[k] = min;
-		G.Mark[k] = 1;
-		for (Edge<EdgeType> e = G.FirstEdge(k); G.isEdge(e); e = G.NextEdge(e))
-		{
-			int vertexEnd = e.end;
-			if (G.Mark[vertexEnd] == 0 && D[vertexEnd]>(D[k] + e.weight))
-			{
-				D[vertexEnd] = D[k] + e.weight;
-				Path[vertexEnd] = k;
-				cout << "111111" << endl;
-			}
-		}
+	}
 
+	for (int v = 0; v<n; v++)
+	{
+		for (int i = 0; i<n; i++)
+		{
+			for (int j = 0; j<n; j++)
+			{
+				if (Adj[i][j]>(Adj[i][v] + Adj[v][j]))
+				{
+					Adj[i][j] = Adj[i][v] + Adj[v][j];
+					Path[i][j] = v;
+				}
+			}
+		}
 	}
 
 }
@@ -330,45 +332,54 @@ void Dijkstra(AdjGraph<EdgeType>& G, int s, EdgeType D[], int Path[])//从S出发生
 int main()
 {
 	//课本p163页的图
-	int tem[6][6] = {
-		{ 999, 12, 10,999, 30,999 },
-		{ 999,5  ,999,999,999,999 },
-		{ 999,999,999,50 ,999,999 },
-		{ 999,999,999,999,999, 10 },
-		{ 999,999,999, 20,999, 60 },
-		{ 999,999,999,999,999,999 },
+	int tem[3][3] = {
+		{ 999, 5, 10 },
+		{ 2,999,13 },
+		{ 9,13,999 },
 	};
-	int ** a = new int *[6];
-	for (int i = 0; i<6; i++)
+	int n = 3;
+	int ** a = new int *[n];
+	for (int i = 0; i<n; i++)
 	{
-		a[i] = new int[6];
+		a[i] = new int[n];
 	}
-	for (int i = 0; i<6; i++)
-		for (int j = 0; j<6; j++)
+	for (int i = 0; i<n; i++)
+		for (int j = 0; j<n; j++)
 		{
 			a[i][j] = tem[i][j];
 		}
 
-	AdjGraph<int> p(6, a);
+	AdjGraph<int> p(n,a);
 	p.disp();
 	cout << "深度优先搜索" << endl;
-	//p.DFSGraph();
+	p.DFSGraph();
 	cout << endl;
 	cout << "广度优先搜索" << endl;
-	//p.BFSGraph();
-	int D[5];
-	int path[5];
-	Dijkstra(p, 0, D, path);
-	cout << "D" << endl;
-	for (int i = 0; i<5; i++)
+	p.BFSGraph();
+	//Floyed算法
+	int **Adj, **Path;
+	Adj = new int *[n];
+	Path = new int *[n];
+	for (int i = 0; i<n; i++)
 	{
-		cout << D[i] << " ";
+		Adj[i] = new int[n];
+		Path[i] = new int[n];
+	}
+	Floyed(p, Adj, Path);
+	cout << "Adj" << endl;
+	for (int i = 0; i<n; i++)
+	{
+		for (int j = 0; j<n; j++)
+			cout << Adj[i][j] << " ";
+		cout << endl;
 	}
 	cout << endl;
 	cout << "Path" << endl;
-	for (int i = 0; i<5; i++)
+	for (int i = 0; i<n; i++)
 	{
-		cout << path[i] << " ";
+		for (int j = 0; j<n; j++)
+			cout << Path[i][j] << " ";
+		cout << endl;
 	}
 	cout << endl;
 	return 0;

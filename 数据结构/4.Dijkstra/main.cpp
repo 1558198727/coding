@@ -338,7 +338,7 @@ void Dijkstra(AdjGraph<EdgeType>& G,int s,EdgeType D[],int Path[])//´ÓS³ö·¢Éú³É×
 
 int main()
 {
-    //¿Î±¾p163Ò³µÄÍ¼
+    //¿Î±¾p170µÄÍ¼
     int tem[6][6]={
         {999, 12, 10,999, 30,100},
         {999,5  ,999,999,999,999},
@@ -347,38 +347,45 @@ int main()
         {999,999,999, 20,999, 60},
         {999,999,999,999,999,999},
     };
-    int ** a=new int *[6];
-    for(int i=0;i<6;i++)
+    int n=6;
+    int ** a=new int *[n];
+    for(int i=0;i<n;i++)
     {
-        a[i]=new int [6];
+        a[i]=new int [n];
     }
-    for(int i=0;i<6;i++)
-      for(int j=0;j<6;j++)
+    for(int i=0;i<n;i++)
+      for(int j=0;j<n;j++)
     {
         a[i][j]=tem[i][j];
     }
 
-    AdjGraph<int> p(6,a);
+    AdjGraph<int> p(n,a);
     p.disp();
     cout<<"Éî¶ÈÓÅÏÈËÑË÷"<<endl;
     p.DFSGraph();
     cout<<endl;
     cout<<"¹ã¶ÈÓÅÏÈËÑË÷"<<endl;
     p.BFSGraph();
-    int D[6];
-    int path[6];
+    int D[n];
+    int path[n];
     Dijkstra(p,0,D,path);
     cout<<"D"<<endl;
-    for(int i=0;i<6;i++)
+    for(int i=0;i<n;i++)
     {
         cout<<D[i]<<" ";
     }
     cout<<endl;
         cout<<"Path"<<endl;
-    for(int i=0;i<6;i++)
+    for(int i=0;i<n;i++)
     {
         cout<<path[i]<<" ";
     }
     cout<<endl;
     return 0;
 }
+
+
+
+
+
+
