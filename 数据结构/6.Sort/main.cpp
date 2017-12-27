@@ -314,7 +314,6 @@ int main()
         disp(a,n);
 		switch (i)
 		{
-		    /*
 		case 1:
 		    cout<<"直接插入排序"<<endl;
 			InsertionSort(a, n);
@@ -357,7 +356,6 @@ int main()
 			disp(a,n);
 			cout<<endl;
 			break;
-			*/
 		case 8:
 			cout<<"归并排序"<<endl;
 			MergeSort(a,0,9);
