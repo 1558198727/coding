@@ -147,27 +147,35 @@ int PartitionOne(T Data[],int start,int end)
 template<class T>//分割策略二
 int PartitionTwo(T Data[],int start,int end)
 {
+   int left=start;
+   int right=end;
    T temp=Data[start];
-   start++;
-   while(start<=end)
+
+   while(left<=right)
    {
-     //cout<<"start"<<start<<endl;
-     //cout<<"end"<<end<<endl;
-     while(Data[start]<temp && start<=end)
+     //cout<<"left"<<left<<rightl;
+     //cout<<"right"<<right<<rightl;
+     while(Data[left]<=temp && left<=right)
      {
-       start++;
+       left++;
      }
-     while(Data[end]>temp && start<=end)
+     while(Data[right]>temp && left<=right)
      {
-       end--;
+       right--;
      }
-     if(start<end)
-     Swap(Data,end,start);
+     if(left<right)
+     {
+       Swap(Data,right,left);
+       left++;
+       right--;
+     }
+
      //disp(Data,10);
    }
-   Swap(Data,end,start);
-   //disp(Data,10);
-   return end;
+   //Data[right]=temp;
+   Swap(Data,right,start);
+   disp(Data,9);
+   return right;
 
 
 
@@ -192,7 +200,7 @@ void QuickSortwihPartitionTwo(T Data[],int start,int end)
     {
      int mid=PartitionTwo(Data,start,end);
      //cout<<"111111"<<endl;
-     //disp(Data,10);
+     disp(Data,9);
      QuickSortwihPartitionTwo(Data,start,mid-1);
      QuickSortwihPartitionTwo(Data,mid+1,end);
    }
@@ -305,15 +313,17 @@ void MergeSort(T Data[],int left,int right)
 int main()
 {
 
-    int n=10;//数组元素个数
+    int n=9;//数组元素个数
     for (int i = 1; i <= 8; ++i)
 	{
-	    cout<<"--------------------------------------------------"<<endl;
-	    cout<<"数组初始化"<<endl;
-	    int a[]={5,6,7,8,9,10,1,2,3,4};
-        disp(a,n);
+	    //cout<<"--------------------------------------------------"<<endl;
+	    //cout<<"数组初始化"<<endl;
+	    int a[]={60,40,120,185,20,135,150,130,45};
+        //disp(a,n);
 		switch (i)
 		{
+
+		    /*
 		case 1:
 		    cout<<"直接插入排序"<<endl;
 			InsertionSort(a, n);
@@ -340,16 +350,18 @@ int main()
 			break;
 		case 5:
 			cout<<"快速排序&第一种分割策略"<<endl;
-			QuickSortwihPartitionOne(a,0,9);
+			QuickSortwihPartitionOne(a,0,n-1);
 			disp(a,n);
 			cout<<endl;
 			break;
+			*/
 		case 6:
 			cout<<"快速排序&第二种分割策略"<<endl;
-			QuickSortwihPartitionOne(a,0,9);
+			QuickSortwihPartitionTwo(a,0,n-1);
 			disp(a,n);
 			cout<<endl;
 			break;
+			/*
 		case 7:
 			cout<<"简单选择排序"<<endl;
 			SelectionSort(a, n);
@@ -361,7 +373,7 @@ int main()
 			MergeSort(a,0,9);
 			disp(a,10);
 			cout<<endl;
-			break;
+			break;*/
 		default:
 			break;
 		}
