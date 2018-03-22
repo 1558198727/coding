@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1521272231 source:c:\users\lnovo\desktop\github\coding\leetcode\permutations\main.cpp
+	<stdio.h>
+	<iostream>
+	<algorithm>
+	<vector>
+
