@@ -5,7 +5,6 @@ int ispingfangshu(long long n){
     int sqnint;
     sqndouble = sqrt(n);
     sqnint = (int)sqndouble;
-    //printf("%lf\n",sqndouble);
     if(sqnint<sqndouble){
         return 0;
     }else{
