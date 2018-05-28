@@ -5,28 +5,25 @@
 using namespace std;
 int n,m;
 int grap[1001][1001];
-bool DFS(int c,int d)
+int cost[1001][1001];
+bool Dijstra(int c,int d)
 {
-    bool flag = false;
-    if(grap[c][d]==1)return true;
-    else{
-        for(int i=0;i<n;i++){
-            if(grap[c][i]==1 && i!=c){
-                flag = DFS(i,d);
-                if(flag)
-                    return flag;
-            }
+    int [n];
+    for(int i=0;i<n;i++){
+        for(int j=0;j<n;j++){
+
         }
-       return flag;
     }
+
 }
 int main()
 {
 
-    int x,y;
+    int x,y,q;
     while(scanf("%d",&n)!= EOF){
         scanf("%d",&m);
-        memset(grap,0,sizeof(grap));
+        memset(grap,0x3F,sizeof(grap));
+        memset(grap,0x3F,sizeof(cost));
 
         for(int i=0;i<m;i++)
         {

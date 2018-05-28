@@ -1,28 +1,51 @@
 #include <iostream>
 #include <stdio.h>
-#include <string>
+#include <string.h>
 using namespace std;
-int findstr(string str,string aim,int n){
-     return str.find(aim, n);
+int findstr(char str[],char aim[],int n){
+     bool flag = true;
+     int strLen=strlen(str);
+     int aimLen=strlen(aim);
+     for(int i=n;i<strLen;i++){
+        flag = true;
+        for(int j=0;j<aimLen;j++){
+            if(aim[j]!=str[i+j]){
+                flag = false;
+                break;
+            }
+        }
+        if(flag){
+            return i;
+        }
+     }
+     return -1;
 }
 int main()
 {
-    string str= "hahahahahahah";
-    string aim[3] ={"0-0","haha","frog"};
-    int i;
+    char str[100000]="hahahahahahah";
+    char aim[3][5] ={"0-0","haha","frog"};
+    int strLen;
     int counter;
-    while(scanf("%s",&str[0]) != EOF){
-        //i = 0;
-        //counter = 0;
-        cout<<str<<endl;
-        /*for(int j=0;j<3;j++){
-            while( findstr(str,aim[j],i) != -1){
+    while(gets(str)!=NULL){
+        counter = 0;
+        strLen =  strlen(str);
+        for(int i=0;i<strLen;){
+            if(findstr(str,aim[0],i)==i){
                 counter ++;
-                i = findstr(str,aim[j],i);
                 i += 2;
+            }else if(findstr(str,aim[1],i)==i){
+                counter ++;
+                i += 2;
+            }else if(findstr(str,aim[2],i)==i){
+                counter ++;
+                i += 4;
+            }else{
+                i++;
             }
-        }*/
-        //printf("+%ds\n",counter);
+        }
+        printf("+%ds\n", counter);
     }
+
+
     return 0;
 }
