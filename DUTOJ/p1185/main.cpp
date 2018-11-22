@@ -9,7 +9,6 @@ bool cmp(string a,string b){
     }else{
         return false;
     }
-
 }
 string str[100];
 string ret="";

@@ -1,0 +1,18 @@
+# depslib dependency file v1.0
+1533715382 source:e:\coding\leetcode\p699\main.cpp
+	<iostream>
+	<vector>
+	<map>
+	<set>
+	<queue>
+	<stack>
+	<string>
+	<climits>
+	<algorithm>
+	<sstream>
+	<functional>
+	<bitset>
+	<numeric>
+	<cmath>
+	<regex>
+

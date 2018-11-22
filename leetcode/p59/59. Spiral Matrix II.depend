@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1521293512 source:c:\users\lnovo\desktop\github\coding\leetcode\59. spiral matrix ii\main.cpp
+	<iostream>
+	<vector>
+
+1521301103 source:c:\users\lnovo\desktop\coding\leetcode\59. spiral matrix ii\main.cpp
+	<iostream>
+	<vector>
+	<stdio.h>
+
+1522765004 source:e:\desktop\current\coding\leetcode\59. spiral matrix ii\main.cpp
+	<iostream>
+	<vector>
+	<stdio.h>
+
