@@ -60,7 +60,7 @@ int main()
     int x,y,q;
     scanf("%d",&n);
     scanf("%d",&m);
-    memset(grap,0x3F,sizeof(grap));
+    memset(grap,0x3F3F3F3F,sizeof(grap));
     for(int i=0;i<=n;i++){
         grap[i][i]=0;
     }

@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1554164237 source:e:\coding\leetcode\p297\main.cpp
+	<iostream>
+	<queue>
+	<sstream>
+	<string>
+	<algorithm>
+	<cstring>
+	<cstdio>
+

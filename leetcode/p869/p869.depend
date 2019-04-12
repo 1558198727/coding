@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1554793824 source:e:\coding\leetcode\p869\main.cpp
+	<iostream>
+	<math.h>
+	<sstream>
+	<algorithm>
+	<map>
+

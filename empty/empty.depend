@@ -16,10 +16,7 @@
 	<time.h>
 	<windows.h>
 
-1542706923 source:e:\coding\empty\main.cpp
+1549791757 source:e:\coding\empty\main.cpp
 	<iostream>
-	<stdlib.h>
-	<string>
-	<stack>
-	<queue>
+	<stdio.h>
 

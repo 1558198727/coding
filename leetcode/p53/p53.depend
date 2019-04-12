@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1552784611 source:e:\coding\leetcode\p53\main.c
+	<stdio.h>
+	<stdlib.h>
+	<limits.h>
+	<math.h>
+

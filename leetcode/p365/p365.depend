@@ -1,0 +1,15 @@
+# depslib dependency file v1.0
+1553844668 source:e:\coding\leetcode\p365\main.cpp
+	<iostream>
+	<stdio.h>
+	<string>
+	<typeinfo>
+	<stack>
+	<vector>
+	<sstream>
+	<string.h>
+	<map>
+	<math.h>
+	<stdlib.h>
+	<limits.h>
+

@@ -4,27 +4,39 @@
 #include <math.h>
 using namespace std;
 int a[100000][2];
-bool cmp(int *aa,int *bb){
-    return fabs(aa[0]-aa[1])>fabs(bb[0]-bb[1]);
+
+struct student{
+    int a;
+    int b;
+    int sum;
+}stu[100000];
+bool cmp(student aa,student bb){
+    return aa.sum  > bb.sum ;
 }
 int main()
 {
     int n;
-    int sum=0;
-    int countera=0;
-    int counterb=0;
+    long long sum = 0;
     scanf("%d",&n);
-    int **b;
     for(int i=0;i<n;i++){
-        scanf("%d",&a[i][0]);
-        scanf("%d",&a[i][1]);
+        scanf("%d",&stu[i].a);
+        scanf("%d",&stu[i].b);
+        stu[i].sum = abs(stu[i].b - stu[i].a);
     }
-    b = (int**)a;
-    sort( b,b + n,cmp);
+    sort(stu,stu+n,cmp);
+    int acnt = n/2;
+    int bcnt = n/2;
     for(int i=0;i<n;i++){
-        //if(a[0]>a[1]){
-          cout<<a[i][0]<<" "<<a[i][1]<<endl;
-        //}
+        if( (bcnt ==0) || (acnt>0 && stu[i].a > stu[i].b) ){
+            sum += stu[i].a;
+            //cout<<stu[i].a<<endl;
+            acnt--;
+         }else{
+            sum += stu[i].b;
+            //cout<<stu[i].b<<endl;
+            bcnt --;
+         }
     }
+    printf("%lld\n",sum);
     return 0;
 }

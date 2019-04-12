@@ -14,28 +14,22 @@ using namespace std;
 class Solution {
 public:
     ListNode* mergeTwoLists(ListNode* l1, ListNode* l2) {
-        ListNode *cur,*ret;
-        if(l1->val<l2->val){
-            ret = l1;
-            l1 = l1->next;
+         if(l1==nullptr && l2==nullptr){
+            return nullptr;
+        }else if(l1==nullptr){
+            return l2;
+        }else if(l2==nullptr){
+            return l1;
+        }
+        if(l1->val <= l2->val){
+            l1->next = mergeTwoLists(l1->next,l2);
+            return l1;
         }else{
-            ret = l2;
-            l2 = l2->next;
+            l2->next = mergeTwoLists(l2->next,l1);
+            return l2;
         }
-        cur = ret;
-        while(l1 && l2){
-            if(l1->val < l2->val){
-                cur->next = l1;
-                l1 = l1->next;
-            }else if(l1->val < l2->val){
-                cur->next = l2;
-                l2 = l2->next;
-            }
-        }
-        if(l1) cur->next=l1;
-        else if(l2) cur->next=l2;
-        return ret;
     }
+
 };
 
 int main()
