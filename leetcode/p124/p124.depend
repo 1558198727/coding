@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1556006134 source:e:\coding\leetcode\p124\main.cpp
+	<iostream>
+	<vector>
+	<string>
+	<sstream>
+	<queue>
+	<limits.h>
+

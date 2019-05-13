@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1555420416 source:e:\coding\leetcode\p84\main.cpp
+	<iostream>
+	<limits.h>
+	<vector>
+	<stack>
+

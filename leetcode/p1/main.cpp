@@ -5,7 +5,7 @@
 #include <map>
 #include <unordered_map>
 using namespace std;
-/* ±©Á¦ O(n*n)
+/* Â±Â©ÃÂ¦ O(n*n)
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {
@@ -24,7 +24,7 @@ public:
 };
 */
 
-//ÅÅĞò O(nlog(n))
+//Ã…Ã…ÃÃ² O(nlog(n))
 /*
 class Solution {
 public:
@@ -55,7 +55,7 @@ public:
     }
 };*/
 
-// ¹şÏ£ map O(nlog(n))
+// Â¹Ã¾ÃÂ£ map O(nlog(n))
 /*
 class Solution {
 public:
@@ -77,7 +77,7 @@ public:
 };
 */
 
-// ¹şÏ£ unordered_map O(n)
+// Â¹Ã¾ÃÂ£ unordered_map O(n)
 class Solution {
 public:
     vector<int> twoSum(vector<int>& nums, int target) {

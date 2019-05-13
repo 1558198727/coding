@@ -1,25 +1,31 @@
-////  离散化数组，然后并查集找环
-//////.CSL的魔法
-//////数组之间的大数对小数，小数对大数
-#include<bits/stdc++.h>
+#include <iostream>
+#include <vector>
+#include <algorithm>
+#include <map>
 using namespace std;
-typedef long long LL;
-
 #define debug(x) cout<<#x<<": "<<x<<endl;
-LL POW(LL x,LL n){
-    LL ans = 1;
-    while(n){
-        if(n&1){
-            ans *= x;
-        }
-        x = x*x;
-        n = n>>1;
-    }
-    return ans;
 
+bool cmp(int a,int b){
+    return a>b;
 }
 int main()
 {
-    cout<<POW(2,10)<<endl;
-   return 0;
+    //int a[5] = {1,2,2,1,3};
+    //vector<int> nums(a,a+5);
+    map<int ,int>mp;
+    vector<int> nums = {1,5000,600};
+    for(int i=0;i<nums.size();i++){
+        mp[ nums[i] ] = 1;
+    }
+    for(int i=0;i<nums.size();i++){
+        if( mp[ 5001 - nums[i] ] ){
+            cout<<"yes"<<endl;
+            return 0;
+        }
+    }
+
+    cout<<"no"<<endl;
+
+    //debug(ret)
+    return 0;        //最终的结果是：608.100000
 }

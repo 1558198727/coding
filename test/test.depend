@@ -1,15 +1,5 @@
 # depslib dependency file v1.0
-1553951858 source:e:\coding\test\main.cpp
+1556276624 source:e:\coding\test\main.cpp
 	<iostream>
-	<stdio.h>
-	<string>
-	<typeinfo>
-	<stack>
 	<vector>
-	<sstream>
-	<string.h>
-	<map>
-	<math.h>
-	<stdlib.h>
-	<limits.h>
 
