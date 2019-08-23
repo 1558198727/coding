@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1565792924 source:e:\coding\leetcode\201907b最小公倍数\main.cpp
+	<iostream>
+	<stdio.h>
+	<string.h>
+

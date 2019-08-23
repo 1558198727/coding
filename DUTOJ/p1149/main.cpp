@@ -5,17 +5,6 @@ using namespace std;
 int dp[500000][15];
 char a[500000];
 
-int minOf3(int a,int b,int c){
-    if(a<=b && a<=c){
-        return a;
-    }
-    if(b<=a && b<=c){
-        return b;
-    }
-
-    return c;
-
-}
 
 int main()
 {
@@ -42,7 +31,7 @@ int main()
                     dp[i][j] = dp[i-1][j-1];
                 }
                 else{
-                    dp[i][j]=minOf3( dp[i - 1][j - 1] + 2, dp[i][j - 1] + 1, dp[i - 1][j] + 1);
+                    dp[i][j]=min( min(dp[i - 1][j - 1] + 2, dp[i][j - 1] + 1), dp[i - 1][j] + 1);
                 }
             }
         }
