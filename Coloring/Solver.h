@@ -242,7 +242,7 @@ class Solver
                 fsVal += bestM.cost;
                 bestM = bestMove();
             }
-            //debug(fsVal);
+            debug(fsVal);
 
             if( isSucceed() ){
                 return true;

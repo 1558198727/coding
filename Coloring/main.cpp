@@ -22,12 +22,12 @@ int main(int argc, char *argv[]) {
     };
 
 
-    //Solver Solver1(files[8]);
-    //int K = Solver1.run();
-    //cout<<"result:";
-    //debug(K);
+    Solver Solver1(files[9]);
+    int K = Solver1.run();
+    cout<<"result:";
+    debug(K);
 
-
+    /*
     ofstream outFile;
     outFile.open("test.txt",ios_base::app);
     if (outFile.is_open()){
@@ -49,6 +49,6 @@ int main(int argc, char *argv[]) {
         }
     }
     outFile.close();
-
+    */
     return 0;
 }

@@ -1,5 +1,5 @@
 # depslib dependency file v1.0
-1566485174 source:e:\coding\coloring\main.cpp
+1566564160 source:e:\coding\coloring\main.cpp
 	<bits/stdc++.h>
 	"Solver.h"
 
@@ -21,7 +21,7 @@
 
 1566309386 e:\coding\coloring\include\mystring.h
 
-1566485252 e:\coding\coloring\solver.h
+1566564194 e:\coding\coloring\solver.h
 	<bits/stdc++.h>
 	"Edge.h"
 	"Reader.h"
